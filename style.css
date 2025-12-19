@@ -1,0 +1,47 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f7;
+  color: #2c3e50;
+}
+
+nav {
+  background: #2ecc71;
+  padding: 1rem 2rem;
+  color: white;
+}
+
+main {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+.hero {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.hero input {
+  padding: 0.8rem;
+  width: 60%;
+  max-width: 300px;
+  margin-top: 1rem;
+}
+
+.hero button {
+  padding: 0.8rem 1.2rem;
+  margin-left: 0.5rem;
+  background: #2ecc71;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.result {
+  margin-top: 3rem;
+}
