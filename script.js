@@ -1,3 +1,7 @@
+const homePage = document.querySelector(".home-page");
+const resultPage = document.querySelector(".result-page");
+const resultSection = document.getElementById("resultSection");
+
 document.getElementById("checkBtn").addEventListener("click", () => {
   const city = document.getElementById("cityInput").value;
 
@@ -6,49 +10,91 @@ document.getElementById("checkBtn").addEventListener("click", () => {
     return;
   }
 
-  // MOCK DATA (replace later with API)
-  const aqi = 132;
-  const greenScore = 50;
+  // Mock data
+  const aqi = 165;
+  const greenScore = 42;
+
   let status = "Good";
   if (greenScore < 60) status = "Moderate";
-  if (greenScore < 40) status = "Poor";
+  if (greenScore < 40) status = "Unhealthy";
 
-  const suggestions = [
-    "Avoid peak traffic hours",
-    "Use public transport",
-    "Wear a mask outdoors"
-  ];
+  let accent = "#2ecc71";
+  if (greenScore < 60) accent = "#f1c40f";
+  if (greenScore < 40) accent = "#e74c3c";
+  document.documentElement.style.setProperty("--accent", accent);
 
-  // Color logic
-  let color = "#2ecc71";
-  if (greenScore < 60) color = "#f1c40f";
-  if (greenScore < 40) color = "#e74c3c";
-  document.documentElement.style.setProperty("--scoreColor", color);
+  resultSection.innerHTML = `
+    <div class="card">
+      <div class="left">
+        <p>📍 ${city}</p>
 
-  document.getElementById("resultSection").innerHTML = `
-    <div class="card fade-in">
-      <h3>📍 ${city}</h3>
+        <div class="meter">
+          <svg width="200" height="200">
+            <circle cx="100" cy="100" r="88" stroke="rgba(255,255,255,0.15)" stroke-width="12" fill="none" />
+            <circle cx="100" cy="100" r="88" stroke="var(--accent)" stroke-width="12" fill="none"
+              stroke-dasharray="552" stroke-dashoffset="552" stroke-linecap="round" />
+          </svg>
 
-      <div class="score">
-        <span>AQI</span>
-        <strong>${aqi}</strong>
+          <div class="meter-text">
+            <span class="score">${greenScore}</span>
+            <span class="label">GreenScore</span>
+          </div>
+        </div>
+
+        <div class="status">${status}</div>
+        <p>AQI: <strong>${aqi}</strong></p>
+
+        <h4>What you should do today</h4>
+
+        <div class="actions">
+          <div class="action-card">
+            <span class="icon">🏃‍♂️</span>
+            <div>
+              <strong>Avoid Outdoor Exercise</strong>
+              <p>High pollution can strain your lungs</p>
+            </div>
+          </div>
+
+          <div class="action-card">
+            <span class="icon">😷</span>
+            <div>
+              <strong>Wear N95 Mask</strong>
+              <p>Reduces inhalation of PM2.5 particles</p>
+            </div>
+          </div>
+
+          <div class="action-card">
+            <span class="icon">🔥</span>
+            <div>
+              <strong>Do Not Burn Waste</strong>
+              <p>Prevents release of toxic gases</p>
+            </div>
+          </div>
+        </div>
       </div>
 
-     <div class="greenscore">
-       <span>GreenScore</span>
-       <h1>${greenScore}</h1>
-      <p class="status">${status}</p>
+      <div class="map">
+        Area overview<br />
+        (Future Maps integration)
       </div>
-
-      <h4>What you can do today 🌱</h4>
-      <ul>
-        ${suggestions.map(s => `<li>✔ ${s}</li>`).join("")}
-      </ul>
     </div>
   `;
 
-    document.getElementById("resultSection").scrollIntoView({
-     behavior: "smooth"
-  });
+  setTimeout(() => {
+    const circle = document.querySelector(".meter svg circle:nth-child(2)");
+    circle.style.transition = "stroke-dashoffset 1s ease";
+    circle.style.strokeDashoffset = 552 - (greenScore / 100) * 552;
+  }, 100);
 
+  homePage.classList.add("exit");
+  resultPage.classList.add("active");
+});
+
+document.getElementById("backBtn").addEventListener("click", () => {
+  homePage.classList.remove("exit");
+  resultPage.classList.remove("active");
+});
+
+document.getElementById("cityInput").addEventListener("keypress", (e) => {
+  if (e.key === "Enter") document.getElementById("checkBtn").click();
 });

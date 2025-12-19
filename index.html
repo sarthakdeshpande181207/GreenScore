@@ -5,67 +5,72 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GreenScore</title>
 
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-
-  <!-- Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <!-- Background shapes -->
-  <div class="bg-shape one"></div>
-  <div class="bg-shape two"></div>
+
+  <!-- Navbar -->
   <nav class="navbar">
-   <h1>🌿 GreenScore</h1>
-   <span class="nav-tagline">Community Air Quality Index</span>
+    <div class="logo">
+      <img src="logo.jpeg" alt="GreenScore Logo" />
+      <span>GreenScore</span>
+    </div>
   </nav>
 
+  <!-- APP CONTAINER -->
+  <div class="app">
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
-      <i data-lucide="leaf" class="hero-icon"></i>
-      <h2>Community Air Quality & Action Index</h2>
-      <p>Enter your city to check today's air quality score.</p>
+    <!-- HOME PAGE -->
+    <section class="page home-page active">
+      <h1>Check your city's air quality</h1>
+      <p>
+        Understand today’s air quality and get actionable insights
+        to reduce pollution in your community.
+      </p>
 
       <div class="input-group">
-        <input type="text" id="cityInput" placeholder="Enter city name" />
-        <button id="checkBtn">Check Air Quality</button>
-        <div class="stats">
-          <div class="stat">
-            <h3>500+</h3>
-            <p>Cities Covered</p>
+        <input type="text" id="cityInput" placeholder="Enter city name..." />
+        <button id="checkBtn">Check GreenScore</button>
+      </div>
+
+      <!-- EXTRA CONTENT -->
+      <div class="hero-extra">
+        <p class="tagline">
+          A simple way to understand how clean your city’s air really is.
+        </p>
+
+        <div class="features">
+          <div class="feature">
+            <span>🌍</span>
+            <p>Live air quality insights for Indian cities</p>
           </div>
-          <div class="stat">
-           <h3>0–100</h3>
-           <p>GreenScore Index</p>
+
+          <div class="feature">
+            <span>📊</span>
+            <p>GreenScore (0–100) that anyone can understand</p>
           </div>
-          <div class="stat">
-            <h3>AI</h3>
-            <p>Action Suggestions</p>
+
+          <div class="feature">
+            <span>🛡️</span>
+            <p>Clear actions to protect your health daily</p>
           </div>
         </div>
 
+        <div class="bg-stat">
+          1.6M+ deaths every year in India due to air pollution
+        </div>
       </div>
     </section>
 
-    <section class="info">
-      <h3>Why GreenScore?</h3>
-      <p>
-        Air quality data is complex. GreenScore turns it into a simple,
-        easy-to-understand number and tells communities what they can do today.
-      </p>
+    <!-- RESULT PAGE -->
+    <section class="page result-page">
+      <button class="back-btn" id="backBtn">← Back</button>
+      <div id="resultSection"></div>
     </section>
 
-    <!-- RESULT -->
-    <section class="result" id="resultSection"></section>
-  </main>
+  </div>
 
   <script src="script.js"></script>
-  <script>
-    lucide.createIcons();
-  </script>
 </body>
 </html>
