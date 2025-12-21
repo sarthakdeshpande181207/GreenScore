@@ -73,10 +73,22 @@ document.getElementById("checkBtn").addEventListener("click", () => {
         </div>
       </div>
 
+    
+      <div class="info-block">
+         <h4>How GreenScore works</h4>
+         <ul>
+           <li>Fetches <strong>real-time air quality data</strong> using Google Air Quality API</li>
+           <li>Converts AQI into a <strong>human-friendly GreenScore (0–100)</strong></li>
+           <li>Uses <strong>Gemini AI</strong> to generate daily, context-aware health actions</li>
+           <li>Designed to deliver <strong>clear insights without overwhelming users</strong></li>
+          </ul>
+      </div>
+
       <div class="map">
         Area overview<br />
         (Future Maps integration)
       </div>
+    
     </div>
   `;
 
