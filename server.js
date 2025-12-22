@@ -7,7 +7,21 @@ const app = express();
 app.use(cors());
 
 /* =========================
-   GEMINI HELPER FUNCTION
+   GET AQI FROM AQICN
+   ========================= */
+async function getAQI(city) {
+  const url = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
+  const response = await axios.get(url);
+
+  if (response.data.status !== "ok") {
+    throw new Error("AQICN failed");
+  }
+
+  return response.data.data.aqi;
+}
+
+/* =========================
+   GEMINI HELPER
    ========================= */
 async function getGeminiActions(city, aqi) {
   const prompt = `
@@ -24,77 +38,62 @@ Do not add extra text.
   const response = await axios.post(
     "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
     {
-      contents: [
-        {
-          parts: [{ text: prompt }]
-        }
-      ]
+      contents: [{ parts: [{ text: prompt }] }]
     },
     {
-      params: {
-        key: process.env.GEMINI_API_KEY
-      }
+      params: { key: process.env.GEMINI_API_KEY }
     }
   );
 
-  const text =
-    response.data.candidates[0].content.parts[0].text;
+  const text = response.data.candidates[0].content.parts[0].text;
 
-  let actions = text
+  return text
     .split("\n")
     .map(line => line.trim())
-    .filter(line => line.length > 0);
-
-  if (actions.length > 3) actions = actions.slice(0, 3);
-
-  return actions;
+    .filter(Boolean)
+    .slice(0, 3);
 }
 
 /* =========================
-   BASIC ROUTES
+   AQI + GEMINI ROUTE
    ========================= */
-app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
-});
+app.get("/aqi", async (req, res) => {
+  const city = req.query.city;
 
-/* =========================
-   GEMINI ROUTE
-   ========================= */
-app.get("/gemini-test", async (req, res) => {
-  const city = req.query.city || "Mumbai";
-  const aqi = req.query.aqi || 150;
-
-  let actions;
-  let source = "gemini";
-
-  try {
-    actions = await getGeminiActions(city, aqi);
-    console.log("✅ Gemini used");
-  } catch (err) {
-    console.error("❌ Gemini failed:");
-    console.error(err.response?.data || err.message);
-
-    source = "fallback";
-    actions = [
-      "Avoid outdoor exercise during peak pollution hours.",
-      "Wear a protective mask if you step outside.",
-      "Keep windows closed to reduce indoor pollution."
-    ];
+  if (!city) {
+    return res.status(400).json({ error: "City required" });
   }
 
-  res.json({
-    city,
-    aqi,
-    actions,
-    source
-  });
+  try {
+    const aqi = await getAQI(city);
+    const actions = await getGeminiActions(city, aqi);
+
+    res.json({
+      city,
+      aqi,
+      actions,
+      source: "aqicn + gemini"
+    });
+  } catch (err) {
+    console.error(err.message);
+
+    res.json({
+      city,
+      aqi: null,
+      actions: [
+        "Avoid outdoor exercise today.",
+        "Wear a protective mask when going outside.",
+        "Keep windows closed to reduce indoor pollution."
+      ],
+      source: "fallback"
+    });
+  }
 });
 
 /* =========================
    START SERVER
    ========================= */
 const PORT = process.env.PORT || 5000;
-
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
 });
