@@ -30,21 +30,38 @@ A higher GreenScore indicates better air quality and healthier conditions, while
 - Actions Source: Gemini AI 
 ---
 
-## ▶️ How to Run (Demo Mode)
+## 🌐 Live Demo & Backend Note
 
-### Step 1: Start Backend
+This project is deployed on **GitHub Pages** for UI preview:
 
-```bash
-node server.js 
+🔗 Frontend (UI Preview):  
+https://sarthakdeshpande181207.github.io/GreenScore/
 
-```
-- The backend runs on http://localhost:5000
+⚠️ **Important:**  
+GitHub Pages supports only static frontend files (HTML, CSS, JavaScript).  
+The **Node.js backend** used to fetch real-time AQI data **does not run on GitHub Pages**.
 
-### Step 2: Open the Frontend
+---
 
-- Open index.html in a browser (or via Live Server).
-- The site will automatically connect to the backend and display AQI results.
+## ▶️ Run Full Project (Live AQI Demo)
 
+To experience the complete functionality with live AQI data:
+
+1. Clone the repository
+   ```bash
+   git clone https://github.com/sarthakdeshpande181207/GreenScore.git
+  
+2. Navigate to the backend folder
+   ```bash
+   cd backend
+
+3. Install dependencies
+   ```bash
+   npm install
+
+4. Start the backend server
+   ```bash
+   node server.js
 
 ℹ️ Note for Evaluators / Judges
 
