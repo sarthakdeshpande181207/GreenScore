@@ -9,7 +9,7 @@ GOOGLE TECHNOLOGY USED : GOOGLE GEMINI AI
 
 ### 🌿 What is GreenScore?
 
-GreenScore is a simple score derived from the city’s AQI value that represents how environmentally safe the air is.  
+GreenScore is a simple score (0-100) derived from the city’s AQI value that represents how environmentally safe the air is.  
 A higher GreenScore indicates better air quality and healthier conditions, while a lower score highlights pollution risk.
 
 ## 🚀 Features
