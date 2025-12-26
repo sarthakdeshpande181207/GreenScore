@@ -4,6 +4,7 @@ GreenScore is a full-stack web application that displays **real-time Air Quality
 
 This project was developed as part of a TechSprint hackathon and is ready for live demonstration.
 
+GOOGLE TECHNOLOGY USED : GOOGLE GEMINI AI
 ---
 
 ## 🚀 Features
@@ -11,7 +12,7 @@ This project was developed as part of a TechSprint hackathon and is ready for li
 - 🌍 City-based AQI data using AQICN API
 - 🟢 GreenScore calculation based on AQI values
 - 🧠 Insightful suggestions based on air quality
-- 🗺️ City map preview
+- 🗺️ City map preview (future integration)
 - ⚠️ Clear backend dependency handling
 
 ---
