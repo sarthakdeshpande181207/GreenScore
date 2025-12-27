@@ -41,6 +41,8 @@ https://sarthakdeshpande181207.github.io/GreenScore/
 
 https://green-score-hazel.vercel.app/
 
+NOTE !! : THE RESULT PAGE WONT BE SHOWN IF FREE TIER LIMITS OF API ARE EXHAUSTED 
+
 ⚠️ **Important:**  
 GitHub Pages supports only static frontend files (HTML, CSS, JavaScript).  
 The **Node.js backend** used to fetch real-time AQI data **does not run on GitHub Pages**.
