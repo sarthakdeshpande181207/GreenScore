@@ -29,21 +29,19 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
     const aqi = data.aqi;
 
     // 4️⃣ Calculate GreenScore
-    let greenScore;
-
-    if (aqi <= 50) {
-     greenScore = 95;
-    } else if (aqi <= 100) {
-     greenScore = 80;
-    } else if (aqi <= 200) {
-     greenScore = 55;
-    } else if (aqi <= 300) {
-    greenScore = 30;
-    } else if (aqi <= 400) {
-    greenScore = 15;
-    } else {
-     greenScore = 5;
+    let greenScore ;
+    if(aqi<=300){
+      greenScore=100-(aqi/3);
     }
+    else{
+      greenScore=0;
+    }
+  
+    // Clamp between 0 and 100
+    greenScore = Math.max(0, Math.min(100, greenScore));
+
+    // Round to integer
+    greenScore = Math.round(greenScore);
 
 
     // 5️⃣ Decide status
