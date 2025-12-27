@@ -47,7 +47,7 @@ The **Node.js backend** used to fetch real-time AQI data **does not run on GitHu
 
 To experience the complete functionality with live AQI data:
 
-1. Clone the repository
+1. Clone the repository by opening the terminal in desktop
    ```bash
    git clone https://github.com/sarthakdeshpande181207/GreenScore.git
   
