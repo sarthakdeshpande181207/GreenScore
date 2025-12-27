@@ -13,7 +13,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
   try {
     // 1️⃣ Fetch AQI + Gemini actions from backend
     const response = await fetch(
-      `http://localhost:5000/aqi?city=${encodeURIComponent(city)}`
+      `/api/aqi?city=${city}`
     );
 
     const data = await response.json();

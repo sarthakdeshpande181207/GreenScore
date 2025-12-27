@@ -1,10 +1,4 @@
-const express = require("express");
-const cors = require("cors");
 const axios = require("axios");
-require("dotenv").config();
-
-const app = express();
-app.use(cors());
 
 /* =========================
    GET AQI FROM AQICN
@@ -55,9 +49,9 @@ Do not add extra text.
 }
 
 /* =========================
-   AQI + GEMINI ROUTE
+   VERCEL HANDLER
    ========================= */
-app.get("/aqi", async (req, res) => {
+module.exports = async (req, res) => {
   const city = req.query.city;
 
   if (!city) {
@@ -68,7 +62,7 @@ app.get("/aqi", async (req, res) => {
     const aqi = await getAQI(city);
     const actions = await getGeminiActions(city, aqi);
 
-    res.json({
+    res.status(200).json({
       city,
       aqi,
       actions,
@@ -77,7 +71,7 @@ app.get("/aqi", async (req, res) => {
   } catch (err) {
     console.error(err.message);
 
-    res.json({
+    res.status(200).json({
       city,
       aqi: null,
       actions: [
@@ -88,12 +82,4 @@ app.get("/aqi", async (req, res) => {
       source: "fallback"
     });
   }
-});
-
-/* =========================
-   START SERVER
-   ========================= */
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
-});
+};
