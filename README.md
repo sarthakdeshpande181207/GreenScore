@@ -37,7 +37,8 @@ This project is deployed on **GitHub Pages** for UI preview:
 🔗 Frontend (UI Preview):  
 https://sarthakdeshpande181207.github.io/GreenScore/
 
-🔗 Full demo
+🔗 Full demo:
+
 https://green-score-hazel.vercel.app/
 
 ⚠️ **Important:**  
@@ -45,26 +46,6 @@ GitHub Pages supports only static frontend files (HTML, CSS, JavaScript).
 The **Node.js backend** used to fetch real-time AQI data **does not run on GitHub Pages**.
 
 ---
-
-## ▶️ Run Full Project (Live AQI Demo)
-
-To experience the complete functionality with live AQI data:
-
-1. Clone the repository by opening the terminal in desktop
-   ```bash
-   git clone https://github.com/sarthakdeshpande181207/GreenScore.git
-  
-2. Navigate to the backend folder
-   ```bash
-   cd backend
-
-3. Install dependencies
-   ```bash
-   npm install
-
-4. Start the backend server
-   ```bash
-   node server.js
 
 ℹ️ Note for Evaluators / Judges
 
