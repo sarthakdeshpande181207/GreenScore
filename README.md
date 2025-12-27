@@ -80,7 +80,7 @@ To experience the complete functionality with live AQI data:
 **Members:**
 - Prasad Kokare (leader)
 - Sarthak Deshpande
-- Bhavesh Kumawat
+- Bhavesh Kumawa
 - Prajwal Mote
 
 
