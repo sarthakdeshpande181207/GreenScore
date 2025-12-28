@@ -1,3 +1,8 @@
+const cityFallbackMap = {
+  panvel: "navi mumbai",
+  Panvel: "navi mumbai"
+};
+
 const axios = require("axios");
 
 /* =========================
@@ -52,7 +57,11 @@ Do not add extra text.
    VERCEL HANDLER
    ========================= */
 module.exports = async (req, res) => {
-  const city = req.query.city;
+  let city = req.query.city.toLowerCase();
+
+  if (cityFallbackMap[city]) {
+    city = cityFallbackMap[city];
+  }
 
   if (!city) {
     return res.status(400).json({ error: "City required" });
