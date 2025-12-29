@@ -49,13 +49,17 @@ The **Node.js backend** used to fetch real-time AQI data **does not run on GitHu
 
 ---
 
-ℹ️ Note for Evaluators / Judges
+## ⚠️ Note for Evaluators
 
-- The frontend depends on the backend to fetch live AQI data.
-- If the backend is not running, the site may show a connection-related message.
-- This behavior is intentional and indicates backend dependency.
-- Starting the backend first ensures a fully working demo.
+The GreenScore application is fully deployed on **Vercel** and can be accessed through the live demo link.
 
+- The **frontend and backend** are hosted together using Vercel serverless functions.
+- Real-time AQI data is fetched securely, and **AI-generated insights are powered by Google Gemini AI**.
+- API keys are managed using environment variables to ensure security.
+
+If a specific city does not have a dedicated AQI monitoring station (e.g., Panvel), the system intelligently uses data from the **nearest major city** to provide meaningful and reliable insights.
+
+The deployed version represents the **complete and intended functionality** of the solution.
 ---
 
 ## 👥 Team
