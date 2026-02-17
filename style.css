@@ -16,6 +16,24 @@ body {
   color: #e5e7eb;
 }
 
+/* Global scrollbar styling (can be themed or hidden) */
+/* Default: hide scrollbars but keep content scrollable */
+
+/* Firefox */
+body,
+.app,
+.page {
+  scrollbar-width: none; /* hide scrollbar */
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+body::-webkit-scrollbar,
+.app::-webkit-scrollbar,
+.page::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
 /* Navbar */
 .navbar {
   padding: 1.2rem 2rem;
@@ -292,16 +310,16 @@ button:hover {
 /* Map */
 .map {
   width: 220px;
-  height: 140px;
+  height: 320px; /* 300–350px as requested */
   border-radius: 16px;
-  background: linear-gradient(135deg, #1e293b, #020617);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #94a3b8;
-  font-size: 0.75rem;
-  opacity: 0.85;
+  background: #020617;
+  overflow: hidden; /* hide map tiles overflow */
   flex-shrink: 0;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
 }
 
 /* Mobile */
@@ -358,3 +376,55 @@ button:hover {
   margin-bottom: 0.5rem;
 }
 
+
+/* LOADING OVERLAY */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Solid, rich background instead of transparent */
+  background:
+    radial-gradient(circle at top left, #1b2a4e, #050814 45%),
+    radial-gradient(circle at bottom right, #0f3d2e, #020409 55%);
+  background-blend-mode: screen;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.loading-circle {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: var(--accent, #2ecc71); /* Use accent color if available, else green */
+  border-radius: 50%;
+  animation: spin 1s infinite linear;
+  margin-bottom: 24px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+}
+
+.loading-text {
+  color: #fff;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

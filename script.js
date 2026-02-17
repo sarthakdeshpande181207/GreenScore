@@ -2,6 +2,26 @@ const homePage = document.querySelector(".home-page");
 const resultPage = document.querySelector(".result-page");
 const resultSection = document.getElementById("resultSection");
 
+// Default map center: Navi Mumbai
+const DEFAULT_LAT = 19.0330;
+const DEFAULT_LON = 73.0297;
+
+// Keep reference to Leaflet map instance so we can reuse / destroy between searches
+let greenScoreMap = null;
+
+// Loading Overlay
+const loadingOverlay = document.querySelector(".loading-overlay");
+const loadingText = document.querySelector(".loading-text");
+
+function showLoader(message = "Analyzing Air Quality...") {
+  loadingText.textContent = message;
+  loadingOverlay.classList.add("active");
+}
+
+function hideLoader() {
+  loadingOverlay.classList.remove("active");
+}
+
 document.getElementById("checkBtn").addEventListener("click", async () => {
   const city = document.getElementById("cityInput").value;
 
@@ -11,6 +31,8 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
   }
 
   try {
+    showLoader("Connecting to Satellite...");
+
     // 1️⃣ Fetch AQI + Gemini actions from backend
     const response = await fetch(
       `/api/aqi?city=${city}`
@@ -19,8 +41,8 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
     const data = await response.json();
     console.log("Backend response:", data);
 
-    // 2️⃣ Safety check
-    if (!data.aqi) {
+    // 2️⃣ Safety check (allow 0 but not null/undefined)
+    if (data.aqi == null) {
       alert("AQI data not available for this city.");
       return;
     }
@@ -111,13 +133,50 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
         </div>
 
         <div class="map">
-          Area overview<br />
-          (Future Maps integration)
+          <div id="map"></div>
         </div>
       </div>
     `;
 
-    // 8️⃣ Animate meter
+    // 8️⃣ Initialize map (Leaflet) – highlight user city
+    try {
+      if (typeof L !== "undefined") {
+        // Prefer backend geocoded coordinates; fall back to Navi Mumbai
+        const lat =
+          typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
+        const lon =
+          typeof data.lon === "number" ? data.lon : DEFAULT_LON;
+
+        // Clean up previous map if it exists
+        if (greenScoreMap) {
+          greenScoreMap.remove();
+          greenScoreMap = null;
+        }
+
+        // Zoomed-in city view
+        greenScoreMap = L.map("map").setView([lat, lon], 14);
+
+        // OpenStreetMap tiles (shows streets, shops, POIs, labels)
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+          maxZoom: 19,
+          attribution: "&copy; OpenStreetMap contributors",
+        }).addTo(greenScoreMap);
+
+        // City name marker
+        L.marker([lat, lon])
+          .addTo(greenScoreMap)
+          .bindPopup(city)
+          .openPopup();
+      }
+    } catch (mapErr) {
+      console.error("Map error:", mapErr);
+      const mapEl = document.querySelector(".map");
+      if (mapEl) {
+        mapEl.textContent = "Map error. Open browser console for details.";
+      }
+    }
+
+    // 9️⃣ Animate meter
     setTimeout(() => {
       const circle = document.querySelector(
         ".meter svg circle:nth-child(2)"
@@ -127,13 +186,15 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
         552 - (greenScore / 100) * 552;
     }, 100);
 
-    // 9️⃣ Switch page
+    // 🔟 Switch page
     homePage.classList.add("exit");
     resultPage.classList.add("active");
 
   } catch (err) {
     console.error(err);
     alert("Something went wrong. Please try again.");
+  } finally {
+    hideLoader();
   }
 });
 
