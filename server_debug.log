@@ -97,3 +97,61 @@
 [2026-02-17T15:28:55.638Z] Requesting AQI for: delhi (Token length: 40)
 [2026-02-17T15:28:55.639Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
 [2026-02-17T15:28:56.126Z] AQICN Success: AQI 133
+[2026-03-04T16:01:01.722Z] Requesting AQI for: panvel (Token length: 40)
+[2026-03-04T16:01:01.724Z] URL: https://api.waqi.info/feed/panvel/?token=MASKED
+[2026-03-04T16:01:02.634Z] AQICN Success: AQI -
+[2026-03-04T16:01:33.761Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:01:33.763Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:01:34.266Z] AQICN Success: AQI 151
+[2026-03-04T16:03:07.837Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:03:07.840Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:03:08.349Z] AQICN Success: AQI 151
+[2026-03-04T16:14:18.683Z] Requesting AQI for: dlhi (Token length: 40)
+[2026-03-04T16:14:18.686Z] URL: https://api.waqi.info/feed/dlhi/?token=MASKED
+[2026-03-04T16:14:19.198Z] AQICN Response Error: {"status":"error","data":"Unknown station"}
+[2026-03-04T16:14:19.201Z] Axios Error: AQICN failed: "Unknown station"
+[2026-03-04T16:14:26.570Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:14:26.572Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:14:27.095Z] AQICN Success: AQI 151
+[2026-03-04T16:15:21.967Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:15:21.969Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:15:22.444Z] AQICN Success: AQI 151
+[2026-03-04T16:16:49.044Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:16:49.047Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:16:49.517Z] AQICN Success: AQI 151
+[2026-03-04T16:17:13.670Z] Requesting AQI for: new york (Token length: 40)
+[2026-03-04T16:17:13.672Z] URL: https://api.waqi.info/feed/new%20york/?token=MASKED
+[2026-03-04T16:17:14.167Z] AQICN Success: AQI 52
+[2026-03-04T16:21:36.151Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:21:36.155Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:21:37.454Z] AQICN Success: AQI 151
+[2026-03-04T16:24:16.877Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:24:16.880Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:24:17.350Z] AQICN Success: AQI 151
+[2026-03-04T16:24:50.936Z] Requesting AQI for: panvel (Token length: 40)
+[2026-03-04T16:24:50.937Z] URL: https://api.waqi.info/feed/panvel/?token=MASKED
+[2026-03-04T16:24:51.394Z] AQICN Success: AQI -
+[2026-03-04T16:25:19.248Z] Requesting AQI for: panvel (Token length: 40)
+[2026-03-04T16:25:19.249Z] URL: https://api.waqi.info/feed/panvel/?token=MASKED
+[2026-03-04T16:25:19.984Z] AQICN Success: AQI -
+[2026-03-04T16:25:56.207Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:25:56.207Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:25:56.715Z] AQICN Success: AQI 151
+[2026-03-04T16:26:40.352Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:26:40.354Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:26:41.052Z] AQICN Success: AQI 151
+[2026-03-04T16:28:16.620Z] Requesting AQI for: panvel (Token length: 40)
+[2026-03-04T16:28:16.622Z] URL: https://api.waqi.info/feed/panvel/?token=MASKED
+[2026-03-04T16:28:17.115Z] AQICN Success: AQI -
+[2026-03-04T16:28:27.700Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:28:27.702Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:28:28.177Z] AQICN Success: AQI 151
+[2026-03-04T16:30:51.808Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:30:51.810Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:30:52.360Z] AQICN Success: AQI 151
+[2026-03-04T16:31:36.542Z] Requesting AQI for: new york (Token length: 40)
+[2026-03-04T16:31:36.545Z] URL: https://api.waqi.info/feed/new%20york/?token=MASKED
+[2026-03-04T16:31:37.191Z] AQICN Success: AQI 52
+[2026-03-04T16:41:52.785Z] Requesting AQI for: delhi (Token length: 40)
+[2026-03-04T16:41:52.787Z] URL: https://api.waqi.info/feed/delhi/?token=MASKED
+[2026-03-04T16:41:53.273Z] AQICN Success: AQI 151

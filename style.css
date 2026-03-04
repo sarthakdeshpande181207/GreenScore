@@ -16,17 +16,13 @@ body {
   color: #e5e7eb;
 }
 
-/* Global scrollbar styling (can be themed or hidden) */
-/* Default: hide scrollbars but keep content scrollable */
-
-/* Firefox */
+/* Hide scrollbars */
 body,
 .app,
 .page {
-  scrollbar-width: none; /* hide scrollbar */
+  scrollbar-width: none;
 }
 
-/* WebKit (Chrome, Edge, Safari) */
 body::-webkit-scrollbar,
 .app::-webkit-scrollbar,
 .page::-webkit-scrollbar {
@@ -37,9 +33,9 @@ body::-webkit-scrollbar,
 /* Navbar */
 .navbar {
   padding: 1.2rem 2rem;
-  background: rgba(255,255,255,0.06);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .logo {
@@ -117,13 +113,13 @@ input {
   width: 280px;
   border-radius: 14px;
   border: none;
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
   outline: none;
 }
 
 input::placeholder {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 button {
@@ -144,10 +140,9 @@ button:hover {
 
 /* Hero extra */
 .hero-extra {
-  margin-top: 2rem; /* tighter */
+  margin-top: 2rem;
   position: relative;
 }
-
 
 .tagline {
   font-size: 1rem;
@@ -169,17 +164,16 @@ button:hover {
   line-height: 1.4;
   padding: 1rem 1.1rem;
   border-radius: 16px;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(10px);
   transition: transform 0.25s ease, background 0.25s ease;
 }
 
 .feature:hover {
   transform: translateY(-4px);
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
-
 
 .feature span {
   font-size: 1.3rem;
@@ -189,7 +183,6 @@ button:hover {
   justify-content: center;
   margin-top: 2px;
 }
-
 
 .bg-stat {
   position: absolute;
@@ -218,11 +211,12 @@ button:hover {
   gap: 1.4rem;
   padding: 1.6rem;
   border-radius: 24px;
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(18px);
-  border: 1px solid rgba(255,255,255,0.1);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
   animation: popIn 0.5s ease;
+  flex-wrap: wrap;
 }
 
 .left {
@@ -232,8 +226,15 @@ button:hover {
 }
 
 @keyframes popIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 /* Meter */
@@ -286,15 +287,15 @@ button:hover {
   gap: 0.9rem;
   padding: 0.9rem 1rem;
   border-radius: 14px;
-  background: rgba(255,255,255,0.08);
-  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(10px);
   transition: transform 0.2s ease, background 0.2s ease;
 }
 
 .action-card:hover {
   transform: translateX(4px);
-  background: rgba(255,255,255,0.12);
+  background: rgba(255, 255, 255, 0.12);
 }
 
 .action-card .icon {
@@ -307,54 +308,147 @@ button:hover {
   opacity: 0.7;
 }
 
-/* Map */
+/* ===================== MAP ===================== */
 .map {
-  width: 220px;
-  height: 320px; /* 300–350px as requested */
-  border-radius: 16px;
-  background: #020617;
-  overflow: hidden; /* hide map tiles overflow */
+  width: 320px;
+  /* Adjusted width */
   flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  background: #020617;
+  align-self: flex-start;
+}
+
+/* Map header bar */
+.map-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+}
+
+.map-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  letter-spacing: 0.3px;
+}
+
+.map-aqi-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  letter-spacing: 0.5px;
 }
 
 #map {
   width: 100%;
-  height: 100%;
+  height: 280px;
+  /* reduced height */
 }
 
-/* Mobile */
-@media (max-width: 700px) {
-  .features {
-    flex-direction: column;
-  }
-
-  .card {
-    flex-direction: column;
-  }
-
-  .map {
-    width: 100%;
-  }
-
-  .input-group {
-    flex-direction: column;
-  }
-
-  input,
-  button {
-    width: 100%;
-  }
+/* ---- Leaflet layer control: dark theme override ---- */
+.leaflet-control-layers {
+  background: rgba(10, 15, 30, 0.92) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(16px) !important;
+  padding: 10px 14px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  color: #e5e7eb !important;
+  font-family: 'Poppins', sans-serif !important;
+  min-width: 140px;
+  margin-bottom: 20px !important;
+  /* prevent it from touching the VERY bottom edge */
 }
 
+.leaflet-control-layers-list {
+  color: #e5e7eb !important;
+}
+
+.leaflet-control-layers label {
+  color: #e5e7eb !important;
+  font-size: 0.82rem !important;
+  font-family: 'Poppins', sans-serif !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 5px 0 !important;
+  transition: color 0.2s ease !important;
+}
+
+.leaflet-control-layers label:hover {
+  color: var(--accent) !important;
+}
+
+.leaflet-control-layers input[type="radio"] {
+  accent-color: var(--accent) !important;
+  width: 14px !important;
+  height: 14px !important;
+  cursor: pointer !important;
+}
+
+.leaflet-control-layers-separator {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+  margin: 6px 0 !important;
+}
+
+/* Leaflet popup dark style */
+.leaflet-popup-content-wrapper {
+  background: rgba(10, 15, 30, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
+  color: #e5e7eb !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(10, 15, 30, 0.95) !important;
+}
+
+.leaflet-popup-close-button {
+  color: #9ca3af !important;
+}
+
+/* Zoom controls dark style */
+.leaflet-control-zoom a {
+  background: rgba(10, 15, 30, 0.92) !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: #e5e7eb !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: white !important;
+}
+
+/* Info block */
 .info-block {
-  margin: 2rem ;
-  padding: 1.3rem 2rem;
+  margin: 0;
+  padding: 1.5rem 2rem;
   align-self: flex-start;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 225, 0.1);
   backdrop-filter: blur(14px);
   max-width: 520px;
+  min-height: 280px;
+  /* Force it to match the new map height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Center the content vertically inside it */
 }
 
 .info-block h4 {
@@ -376,6 +470,33 @@ button:hover {
   margin-bottom: 0.5rem;
 }
 
+/* Mobile */
+@media (max-width: 700px) {
+  .features {
+    flex-direction: column;
+  }
+
+  .card {
+    flex-direction: column;
+  }
+
+  .map {
+    width: 100%;
+  }
+
+  #map {
+    height: 260px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  input,
+  button {
+    width: 100%;
+  }
+}
 
 /* LOADING OVERLAY */
 .loading-overlay {
@@ -384,7 +505,6 @@ button:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  /* Solid, rich background instead of transparent */
   background:
     radial-gradient(circle at top left, #1b2a4e, #050814 45%),
     radial-gradient(circle at bottom right, #0f3d2e, #020409 55%);
@@ -408,7 +528,7 @@ button:hover {
   width: 50px;
   height: 50px;
   border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--accent, #2ecc71); /* Use accent color if available, else green */
+  border-top-color: var(--accent, #2ecc71);
   border-radius: 50%;
   animation: spin 1s infinite linear;
   margin-bottom: 24px;

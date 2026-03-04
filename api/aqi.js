@@ -10,13 +10,14 @@ const axios = require("axios");
    ========================= */
 async function getAQI(city) {
   const url = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
-  const response = await axios.get(url);
+  const response = await fetch(url);
+  const data = await response.json();
 
-  if (response.data.status !== "ok") {
+  if (data.status !== "ok") {
     throw new Error("AQICN failed");
   }
 
-  return response.data.data.aqi;
+  return data.data.aqi;
 }
 
 /* =========================
@@ -25,7 +26,7 @@ async function getAQI(city) {
 async function getGeminiActions(city, aqi) {
   const prompt = `
 City: ${city}
-AQI: ${aqi}
+${aqi ? `AQI: ${aqi}` : ''}
 
 Give exactly 3 short health actions for today.
 Return each action on a new line.
@@ -34,21 +35,27 @@ Do not use emojis.
 Do not add extra text.
 `;
 
-  const response = await axios.post(
-    "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
     {
-      contents: [{ parts: [{ text: prompt }] }]
-    },
-    {
-      params: { key: process.env.GEMINI_API_KEY }
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+      }),
     }
   );
 
-  const text = response.data.candidates[0].content.parts[0].text;
+  const data = await response.json();
+  if (!response.ok) {
+    throw new Error(`Gemini failed: ${data.error?.message || response.status}`);
+  }
+
+  const text = data.candidates[0].content.parts[0].text;
 
   return text
     .split("\n")
-    .map(line => line.trim())
+    .map((line) => line.trim())
     .filter(Boolean)
     .slice(0, 3);
 }
@@ -57,7 +64,7 @@ Do not add extra text.
    VERCEL HANDLER
    ========================= */
 module.exports = async (req, res) => {
-  let city = req.query.city.toLowerCase();
+  let city = req.query.city?.toLowerCase();
 
   if (cityFallbackMap[city]) {
     city = cityFallbackMap[city];
@@ -68,6 +75,12 @@ module.exports = async (req, res) => {
   }
 
   try {
+    // We can fetch AQI first, then pass it to Gemini.
+    // However, if AQI is fast but Gemini is slow, we can just fetch them in parallel 
+    // without passing AQI to Gemini (it knows the general AQI of a city usually anyway),
+    // or we can keep them sequential but use `fetch` to fix the Windows DNS bug.
+    //
+    // Since the prompt requires AQI, we'll keep them sequential but use native fetch!
     const aqi = await getAQI(city);
     const actions = await getGeminiActions(city, aqi);
 
@@ -75,7 +88,7 @@ module.exports = async (req, res) => {
       city,
       aqi,
       actions,
-      source: "aqicn + gemini"
+      source: "aqicn + gemini",
     });
   } catch (err) {
     console.error(err.message);
@@ -86,9 +99,9 @@ module.exports = async (req, res) => {
       actions: [
         "Avoid outdoor exercise today.",
         "Wear a protective mask when going outside.",
-        "Keep windows closed to reduce indoor pollution."
+        "Keep windows closed to reduce indoor pollution.",
       ],
-      source: "fallback"
+      source: "fallback",
     });
   }
 };
