@@ -222,3 +222,60 @@
 [2026-03-11T17:51:22.468Z] Requesting AQI for: london (Token length: 40)
 [2026-03-11T17:51:22.470Z] URL: https://api.waqi.info/feed/london/?token=MASKED
 [2026-03-11T17:51:22.953Z] AQICN Success: AQI 42
+[2026-03-11T18:14:00.624Z] Requesting AQI for: new york (Token length: 40)
+[2026-03-11T18:14:00.626Z] URL: https://api.waqi.info/feed/new%20york/?token=MASKED
+[2026-03-11T18:14:01.119Z] AQICN Success: AQI 71
+[2026-03-11T18:18:34.738Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:18:34.740Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:18:35.231Z] AQICN Success: AQI 164
+[2026-03-11T18:23:45.559Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:23:45.560Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:23:46.049Z] AQICN Success: AQI 164
+[2026-03-11T18:25:03.329Z] Requesting AQI for: london (Token length: 40)
+[2026-03-11T18:25:03.331Z] URL: https://api.waqi.info/feed/london/?token=MASKED
+[2026-03-11T18:25:03.827Z] AQICN Success: AQI 42
+[2026-03-11T18:28:05.714Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:28:05.716Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:28:06.220Z] AQICN Success: AQI 164
+[2026-03-11T18:29:30.716Z] Requesting AQI for: london (Token length: 40)
+[2026-03-11T18:29:30.718Z] URL: https://api.waqi.info/feed/london/?token=MASKED
+[2026-03-11T18:29:31.220Z] AQICN Success: AQI 42
+[2026-03-11T18:33:03.615Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:33:03.616Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:33:04.127Z] AQICN Success: AQI 169
+[2026-03-11T18:35:10.964Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:10.965Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:11.495Z] AQICN Success: AQI 169
+[2026-03-11T18:35:13.648Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:13.649Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:13.799Z] AQICN Success: AQI 169
+[2026-03-11T18:35:18.264Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:18.265Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:18.453Z] AQICN Success: AQI 169
+[2026-03-11T18:35:29.703Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:29.705Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:30.366Z] AQICN Success: AQI 169
+[2026-03-11T18:35:30.550Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:30.551Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:30.707Z] AQICN Success: AQI 169
+[2026-03-11T18:35:30.862Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:30.863Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:31.042Z] AQICN Success: AQI 169
+[2026-03-11T18:35:31.175Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:31.177Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:31.327Z] AQICN Success: AQI 169
+[2026-03-11T18:35:31.468Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:31.469Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:31.626Z] AQICN Success: AQI 169
+[2026-03-11T18:35:31.762Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:35:31.763Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:35:32.093Z] AQICN Success: AQI 169
+[2026-03-11T18:37:24.555Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:37:24.557Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:37:25.068Z] AQICN Success: AQI 169
+[2026-03-11T18:39:07.603Z] Requesting AQI for: Delhi (Token length: 40)
+[2026-03-11T18:39:07.604Z] URL: https://api.waqi.info/feed/Delhi/?token=MASKED
+[2026-03-11T18:39:08.092Z] AQICN Success: AQI 169
+[2026-03-11T18:42:00.057Z] Requesting AQI for: london (Token length: 40)
+[2026-03-11T18:42:00.059Z] URL: https://api.waqi.info/feed/london/?token=MASKED
+[2026-03-11T18:42:00.563Z] AQICN Success: AQI 42
