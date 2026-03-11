@@ -207,7 +207,11 @@ button:hover {
 }
 
 .card {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(300px, 1.2fr) 1fr 1fr;
+  grid-template-areas: 
+    "left info map"
+    "left chart chart";
   gap: 1.4rem;
   padding: 1.6rem;
   border-radius: 24px;
@@ -216,14 +220,54 @@ button:hover {
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
   animation: popIn 0.5s ease;
-  flex-wrap: wrap;
   align-items: stretch;
 }
 
 .left {
-  flex: 1;
+  grid-area: left;
   display: flex;
   flex-direction: column;
+}
+
+.info-block {
+  grid-area: info;
+  margin: 0;
+  padding: 1.5rem 2rem;
+  align-self: flex-start;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 225, 0.1);
+  backdrop-filter: blur(14px);
+  width: 100%;
+  height: 321px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.map {
+  grid-area: map;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  background: #020617;
+  height: 321px;
+}
+
+.chart-block {
+  grid-area: chart;
+  border-radius: 20px;
+  background: linear-gradient(155deg, #0f1f35 0%, #0a1525 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 @keyframes popIn {
@@ -309,18 +353,7 @@ button:hover {
   opacity: 0.7;
 }
 
-/* ===================== MAP ===================== */
-.map {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-  background: #020617;
-  height: 321px;
-}
+/* Map styles moved up to .map class */
 
 /* Map header bar */
 .map-header {
@@ -487,22 +520,7 @@ button:hover {
   color: white !important;
 }
 
-/* Info block */
-.info-block {
-  margin: 0;
-  padding: 1.5rem 2rem;
-  align-self: flex-start;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 225, 0.1);
-  backdrop-filter: blur(14px);
-  max-width: 520px;
-  height: 321px;
-  /* matches map: 280px area + ~41px header */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
+/* Info block moved up */
 
 .info-block h4 {
   margin: 0 0 0.8rem;
@@ -532,18 +550,7 @@ button:hover {
   min-width: 300px;
 }
 
-/* ===================== CHART BLOCK ===================== */
-.chart-block {
-  border-radius: 20px;
-  background: linear-gradient(155deg, #0f1f35 0%, #0a1525 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex: 1;
-}
+/* Chart block moved up */
 
 .chart-header {
   display: flex;
@@ -749,22 +756,19 @@ button:hover {
   }
 
   .card {
-    flex-direction: column;
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+      "left"
+      "info"
+      "map"
+      "chart";
   }
 
   .map,
-  .right-col,
-  .info-block {
+  .info-block,
+  .chart-block {
     width: 100%;
     height: auto;
-  }
-
-  #map {
-    height: 260px;
-  }
-
-  #scoreChart {
-    height: 160px;
   }
 
   .input-group {

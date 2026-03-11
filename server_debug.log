@@ -203,3 +203,22 @@
 [2026-03-10T19:20:35.078Z] Requesting AQI for: new york (Token length: 40)
 [2026-03-10T19:20:35.080Z] URL: https://api.waqi.info/feed/new%20york/?token=MASKED
 [2026-03-10T19:20:35.590Z] AQICN Success: AQI 37
+[2026-03-11T04:16:38.706Z] Requesting AQI for: nw york (Token length: 40)
+[2026-03-11T04:16:38.710Z] URL: https://api.waqi.info/feed/nw%20york/?token=MASKED
+[2026-03-11T04:16:40.093Z] AQICN Response Error: {"status":"error","data":"Unknown station"}
+[2026-03-11T04:16:40.095Z] Axios Error: AQICN failed: "Unknown station"
+[2026-03-11T04:16:49.648Z] Requesting AQI for: new york (Token length: 40)
+[2026-03-11T04:16:49.650Z] URL: https://api.waqi.info/feed/new%20york/?token=MASKED
+[2026-03-11T04:16:50.506Z] AQICN Success: AQI 73
+[2026-03-11T17:12:11.039Z] Requesting AQI for: new york (Token length: 40)
+[2026-03-11T17:12:11.046Z] URL: https://api.waqi.info/feed/new%20york/?token=MASKED
+[2026-03-11T17:12:11.963Z] AQICN Success: AQI 68
+[2026-03-11T17:12:52.921Z] Requesting AQI for: mumbai (Token length: 40)
+[2026-03-11T17:12:52.923Z] URL: https://api.waqi.info/feed/mumbai/?token=MASKED
+[2026-03-11T17:12:53.377Z] AQICN Success: AQI 161
+[2026-03-11T17:44:39.725Z] Requesting AQI for: london (Token length: 40)
+[2026-03-11T17:44:39.727Z] URL: https://api.waqi.info/feed/london/?token=MASKED
+[2026-03-11T17:44:40.506Z] AQICN Success: AQI 42
+[2026-03-11T17:51:22.468Z] Requesting AQI for: london (Token length: 40)
+[2026-03-11T17:51:22.470Z] URL: https://api.waqi.info/feed/london/?token=MASKED
+[2026-03-11T17:51:22.953Z] AQICN Success: AQI 42

@@ -436,46 +436,44 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
           </ul>
         </div>
 
-        <div class="right-col">
-          <div class="map">
-            <div class="map-header">
-              <span class="map-title">📍 ${city}</span>
-              <span class="map-aqi-badge" style="background:${accent}22;border-color:${accent};color:${accent};">AQI ${aqi}</span>
-            </div>
-            <div id="map"></div>
+        <div class="map">
+          <div class="map-header">
+            <span class="map-title">📍 ${city}</span>
+            <span class="map-aqi-badge" style="background:${accent}22;border-color:${accent};color:${accent};">AQI ${aqi}</span>
           </div>
+          <div id="map"></div>
+        </div>
 
-          <div class="chart-block">
-            <div class="chart-header">
-              <div class="chart-title-area">
-                <p class="chart-subtitle">History · AQICN</p>
-                <h3 class="chart-main-title">GreenScore Trend</h3>
+        <div class="chart-block">
+          <div class="chart-header">
+            <div class="chart-title-area">
+              <p class="chart-subtitle">History · AQICN</p>
+              <h3 class="chart-main-title">GreenScore Trend</h3>
+            </div>
+            <div class="chart-controls">
+              <div class="ctoggle-group" id="chartTypeToggle">
+                <button class="ctoggle-btn active" data-value="area">〜</button>
+                <button class="ctoggle-btn" data-value="bar">▐</button>
               </div>
-              <div class="chart-controls">
-                <div class="ctoggle-group" id="chartTypeToggle">
-                  <button class="ctoggle-btn active" data-value="area">〜</button>
-                  <button class="ctoggle-btn" data-value="bar">▐</button>
-                </div>
-                <div class="ctoggle-group" id="chartRangeToggle">
-                  <button class="ctoggle-btn" data-value="7d">7d</button>
-                  <button class="ctoggle-btn active" data-value="15d">15d</button>
-                </div>
+              <div class="ctoggle-group" id="chartRangeToggle">
+                <button class="ctoggle-btn" data-value="7d">7d</button>
+                <button class="ctoggle-btn active" data-value="15d">15d</button>
               </div>
             </div>
-            <div class="chart-stats">
-              <div class="stat-pill"><p class="stat-label">Avg</p><p class="stat-value" id="statAvg">—</p></div>
-              <div class="stat-pill"><p class="stat-label">Best</p><p class="stat-value" id="statBest">—</p></div>
-              <div class="stat-pill"><p class="stat-label">Worst</p><p class="stat-value" id="statWorst">—</p></div>
-            </div>
-            <div class="chart-canvas-wrap">
-              <canvas id="scoreChart"></canvas>
-              <div id="chartTooltip" class="chart-tooltip"></div>
-            </div>
-            <div class="chart-legend">
-              <span class="legend-item"><span class="legend-dot" id="legendDotReal"></span>Real</span>
-              <span class="legend-item"><span class="legend-dot" id="legendDotEst" style="opacity:0.4"></span>Estimated</span>
-              <span class="chart-source">source: aqicn · local cache</span>
-            </div>
+          </div>
+          <div class="chart-stats">
+            <div class="stat-pill"><p class="stat-label">Avg</p><p class="stat-value" id="statAvg">—</p></div>
+            <div class="stat-pill"><p class="stat-label">Best</p><p class="stat-value" id="statBest">—</p></div>
+            <div class="stat-pill"><p class="stat-label">Worst</p><p class="stat-value" id="statWorst">—</p></div>
+          </div>
+          <div class="chart-canvas-wrap">
+            <canvas id="scoreChart"></canvas>
+            <div id="chartTooltip" class="chart-tooltip"></div>
+          </div>
+          <div class="chart-legend">
+            <span class="legend-item"><span class="legend-dot" id="legendDotReal"></span>Real</span>
+            <span class="legend-item"><span class="legend-dot" id="legendDotEst" style="opacity:0.4"></span>Estimated</span>
+            <span class="chart-source">source: aqicn · local cache</span>
           </div>
         </div>
       </div>

@@ -1,23 +1,9 @@
 {
     "version": 2,
-    "builds": [
+    "rewrites": [
         {
-            "src": "index.html",
-            "use": "@vercel/static"
-        },
-        {
-            "src": "api/aqi.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/api/aqi",
-            "dest": "/api/aqi.js"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/index.html"
+            "source": "/api/aqi",
+            "destination": "/api/aqi.js"
         }
     ]
 }
