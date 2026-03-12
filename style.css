@@ -198,12 +198,25 @@ button:hover {
 
 /* Result */
 .back-btn {
-  background: none;
-  color: #9ca3af;
-  border: none;
-  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.08);
+  color: #e5e7eb;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 0.85rem;
   cursor: pointer;
   margin-bottom: 1.5rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
 }
 
 .card {

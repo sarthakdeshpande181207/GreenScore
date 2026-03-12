@@ -17,7 +17,11 @@ async function getAQI(city) {
     throw new Error("AQICN failed");
   }
 
-  return data.data.aqi;
+  return {
+    aqi: data.data.aqi,
+    lat: data.data.city.geo[0],
+    lon: data.data.city.geo[1]
+  };
 }
 
 /* =========================
@@ -81,12 +85,14 @@ module.exports = async (req, res) => {
     // or we can keep them sequential but use `fetch` to fix the Windows DNS bug.
     //
     // Since the prompt requires AQI, we'll keep them sequential but use native fetch!
-    const aqi = await getAQI(city);
+    const { aqi, lat, lon } = await getAQI(city);
     const actions = await getGeminiActions(city, aqi);
 
     res.status(200).json({
       city,
       aqi,
+      lat,
+      lon,
       actions,
       source: "aqicn + gemini",
     });

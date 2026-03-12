@@ -25,7 +25,11 @@ async function getAQI(city) {
     }
 
     logToFile(`AQICN Success: AQI ${response.data.data.aqi}`);
-    return response.data.data.aqi;
+    return {
+      aqi: response.data.data.aqi,
+      lat: response.data.data.city.geo[0],
+      lon: response.data.data.city.geo[1]
+    };
   } catch (error) {
     if (error.response) {
       logToFile(`Axios Error Status: ${error.response.status}`);
@@ -121,8 +125,7 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const aqi = await getAQI(city);
-    const { lat, lon } = await geocodeCity(city);
+    const { aqi, lat, lon } = await getAQI(city);
 
     let actions = [];
     try {

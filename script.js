@@ -382,6 +382,9 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
     let greenScore = aqi <= 300 ? 100 - (aqi / 3) : 0;
     greenScore = Math.max(0, Math.min(100, Math.round(greenScore)));
 
+    const lat = typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
+    const lon = typeof data.lon === "number" ? data.lon : DEFAULT_LON;
+
     let status = "Good";
     if (greenScore < 60) status = "Moderate";
     if (greenScore < 40) status = "Unhealthy";
@@ -482,8 +485,6 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
     // Init map
     try {
       if (typeof L !== "undefined") {
-        const lat = typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
-        const lon = typeof data.lon === "number" ? data.lon : DEFAULT_LON;
         if (greenScoreMap) { greenScoreMap.remove(); greenScoreMap = null; }
 
         const streetLayer = L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
