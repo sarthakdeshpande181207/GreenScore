@@ -408,21 +408,76 @@ function initChart(allData) {
 //  MAIN
 // ═══════════════════════════════════════
 
+// ERROR MODAL LOGIC
+function showErrorModal(type, data = {}) {
+  const modal = document.getElementById("errorModal");
+  const icon = document.getElementById("modalIcon");
+  const title = document.getElementById("modalTitle");
+  const msg = document.getElementById("modalMsg");
+
+  if (type === "network") {
+    icon.textContent = "🌐";
+    title.textContent = "Connection Failed";
+    msg.innerHTML = "Satellite connection failed. Please check your internet or try again later.";
+  } else if (type === "429") {
+    icon.textContent = "⏳";
+    title.textContent = "System Busy";
+    msg.innerHTML = "Satellite bandwidth limit reached. Please wait a minute and try again.";
+  } else if (type === "notFound") {
+    icon.textContent = "🔍";
+    title.textContent = "City Not Found";
+    msg.innerHTML = `We couldn't find <strong>"${data.city || 'the city'}"</strong>. Please check the spelling or try a major nearby city.`;
+  } else {
+    icon.textContent = "⚠️";
+    title.textContent = "Error";
+    msg.innerHTML = "Something went wrong. Please try again.";
+  }
+
+  modal.classList.add("active");
+}
+
+document.getElementById("closeModalBtn").addEventListener("click", () => {
+  document.getElementById("errorModal").classList.remove("active");
+});
+
+// Click outside to close
+document.getElementById("errorModal").addEventListener("click", (e) => {
+  if (e.target.id === "errorModal") {
+    document.getElementById("errorModal").classList.remove("active");
+  }
+});
+
 document.getElementById("checkBtn").addEventListener("click", async () => {
   const city = document.getElementById("cityInput").value;
-  if (!city) { alert("Please enter a city name"); return; }
+  if (!city) { showErrorModal("custom", { msg: "Please enter a city name" }); return; }
 
   try {
     showLoader("Connecting to Satellite...");
 
     const response = await fetch(`/api/aqi?city=${city}`);
+    
+    if (response.status === 429) {
+      showErrorModal("429");
+      return;
+    }
+
+    if (response.status === 503 || !navigator.onLine) {
+      showErrorModal("network");
+      return;
+    }
+
+    if (!response.ok) {
+       throw new Error("Network response was not ok");
+    }
+
     const data = await response.json();
     console.log("Backend response:", data);
 
     let aqiStr = data.aqi;
+    // Handle cases where backend returns null or empty for valid cities that Nominatim found but AQICN didn't
     if (aqiStr == null || String(aqiStr).trim() === "-" || String(aqiStr).trim() === "") {
-      alert("Realtime AQI data not yet available for this city.");
-      homePage.classList.remove("exit"); resultPage.classList.remove("active"); return;
+      showErrorModal("notFound", { city });
+      return;
     }
 
     const aqi = parseInt(aqiStr, 10);
@@ -658,7 +713,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
 
   } catch (err) {
     console.error(err);
-    alert("Something went wrong. Please try again.");
+    showErrorModal("network");
   } finally {
     hideLoader();
   }

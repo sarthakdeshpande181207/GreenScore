@@ -84,6 +84,16 @@
     <div class="loading-text">Analyzing Air Quality...</div>
   </div>
 
+  <!-- Error Modal -->
+  <div id="errorModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-icon" id="modalIcon">⚠️</div>
+      <h2 id="modalTitle">Error</h2>
+      <p id="modalMsg">Something went wrong.</p>
+      <button class="modal-btn" id="closeModalBtn">Got it</button>
+    </div>
+  </div>
+
   <!-- Leaflet JS for map -->
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

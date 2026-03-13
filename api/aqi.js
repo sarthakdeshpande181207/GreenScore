@@ -101,8 +101,28 @@ module.exports = async (req, res) => {
       source: "aqicn + gemini",
     });
   } catch (err) {
-    console.error(err.message);
+    console.error("Backend Error Detail:", err);
 
+    // If it's a network/connection error, alert the frontend specifically
+    // Check for common connection error codes or messages
+    const errorMsg = (err.message || "").toLowerCase();
+    const isNetworkError = errorMsg.includes("fetch failed") || 
+                           errorMsg.includes("enotfound") || 
+                           errorMsg.includes("etimedout") || 
+                           errorMsg.includes("econnrefused") ||
+                           errorMsg.includes("socket") ||
+                           errorMsg.includes("network") ||
+                           err.code === "ENOTFOUND" ||
+                           err.code === "ETIMEDOUT";
+
+    if (isNetworkError) {
+      return res.status(503).json({ 
+        error: "connection", 
+        message: "Satellite connection failed." 
+      });
+    }
+
+    // Default fallback (e.g. city not found in AQICN database specifically)
     res.status(200).json({
       city,
       originalCity: originalCity.toLowerCase() !== city.toLowerCase() ? originalCity : null,
