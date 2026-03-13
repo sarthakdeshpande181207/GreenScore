@@ -8,6 +8,7 @@ GreenScore is a premium, full-stack web app designed to track **real-time Air Qu
 
 ### 1. Accurate City Mapping
 *   **Precise Pinning:** Automatically centers the map on the geographical heart of the city you search, ensuring you fly directly to the right location every time.
+*   **Station Mapping:** If a specific city doesn't have its own monitoring station, the app intelligently identifies the **nearest physical station** and shows its exact location on the map.
 *   **Global Search:** Type any city worldwide and the map intelligently resolves the location to drop a marker at the city center.
 
 ### 2. AI Health Insights
