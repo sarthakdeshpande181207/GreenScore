@@ -1,5 +1,7 @@
 # 🌱 GreenScore – AI-Powered Global Air Quality Platform
 
+**🔗 [Live Demo](https://green-score-hazel.vercel.app/)**
+
 GreenScore is a premium, full-stack web app designed to track **real-time Air Quality (AQI)** across the globe. It combines satellite data with **Google Gemini AI** to provide personalized health actions in a stunning modern interface.
 
 ---
