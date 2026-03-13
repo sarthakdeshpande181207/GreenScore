@@ -75,11 +75,18 @@ function buildChartData(city, currentScore) {
 // ═══════════════════════════════════════
 
 function scoreColor(s) {
-  if (s >= 80) return { color: "#22d3a5", label: "Excellent" };
-  if (s >= 60) return { color: "#4ade80", label: "Good" };
-  if (s >= 40) return { color: "#facc15", label: "Moderate" };
-  if (s >= 20) return { color: "#fb923c", label: "Poor" };
-  return { color: "#f87171", label: "Hazardous" };
+  // Mapping GS to AQI equivalents based on 100 - (aqi/5)
+  // GS 90-100 (AQI 0-50): Good
+  // GS 80-89  (AQI 51-100): Moderate
+  // GS 60-79  (AQI 101-200): Poor
+  // GS 40-59  (AQI 201-300): Very Poor
+  // GS 0-39   (AQI 301+): Severe
+
+  if (s >= 90) return { color: "#2ecc71", label: "Good" };
+  if (s >= 80) return { color: "#f1c40f", label: "Moderate" };
+  if (s >= 60) return { color: "#e67e22", label: "Poor" };
+  if (s >= 40) return { color: "#e74c3c", label: "Very Poor" };
+  return { color: "#9b59b6", label: "Severe" };
 }
 
 function shortDate(isoDate) {
@@ -183,24 +190,51 @@ function drawChart(canvasId, displayData, chartType) {
       ctx.closePath();
       ctx.fillStyle = grad; ctx.fill();
 
+      // Line Path
       ctx.beginPath();
       ctx.moveTo(xOf(seg[0]), yOf(displayData[seg[0]].score));
       for (let k = 1; k < seg.length; k++) {
-        const x0 = xOf(seg[k - 1]), y0 = yOf(displayData[seg[k - 1]].score);
-        const x1 = xOf(seg[k]), y1 = yOf(displayData[seg[k]].score);
+        const idx0 = seg[k - 1];
+        const idx1 = seg[k];
+        const isEstimate = displayData[idx0].isEstimate || displayData[idx1].isEstimate;
+        
+        ctx.save();
+        if (isEstimate) ctx.setLineDash([5, 5]); // Dashed for estimates
+        
+        ctx.beginPath();
+        const x0 = xOf(idx0), y0 = yOf(displayData[idx0].score);
+        const x1 = xOf(idx1), y1 = yOf(displayData[idx1].score);
+        ctx.moveTo(x0, y0);
         ctx.bezierCurveTo((x0 + x1) / 2, y0, (x0 + x1) / 2, y1, x1, y1);
+        
+        ctx.strokeStyle = lc; 
+        ctx.lineWidth = isEstimate ? 1.5 : 2.5; // Thinner for estimates
+        ctx.stroke();
+        ctx.restore();
       }
-      ctx.strokeStyle = lc; ctx.lineWidth = 2.5; ctx.stroke();
     });
 
     displayData.forEach((d, i) => {
       if (d.score === null) return;
       const { color: c } = scoreColor(d.score);
       ctx.beginPath();
-      ctx.arc(xOf(i), yOf(d.score), 3.5, 0, Math.PI * 2);
-      ctx.fillStyle = d.isEstimate ? c + "77" : c;
-      ctx.fill();
-      ctx.strokeStyle = "rgba(5,8,20,0.9)"; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.arc(xOf(i), yOf(d.score), 4, 0, Math.PI * 2);
+      
+      if (d.isEstimate) {
+        // Est: Hollow circle / muted
+        ctx.fillStyle = "rgba(5,8,20,0.9)";
+        ctx.fill();
+        ctx.strokeStyle = c;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      } else {
+        // Real: Solid circle
+        ctx.fillStyle = c;
+        ctx.fill();
+        ctx.strokeStyle = "rgba(255,255,255,0.8)"; 
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
     });
 
   } else {
@@ -218,7 +252,18 @@ function drawChart(canvasId, displayData, chartType) {
       const bH = Math.max(4, yOf(minS) - yOf(d.score));
       const bY = yOf(d.score);
       const r = Math.min(5, barW / 2);
-      ctx.fillStyle = d.isEstimate ? c + "66" : c;
+      
+      if (d.isEstimate) {
+        // Hollow/Stripe look for bars? Let's just use opacity + border
+        ctx.fillStyle = "rgba(255,255,255,0.05)";
+        ctx.strokeStyle = c;
+        ctx.setLineDash([2, 2]);
+        ctx.strokeRect(x - barW / 2, bY, barW, bH);
+        ctx.setLineDash([]);
+      } else {
+        ctx.fillStyle = c;
+      }
+
       ctx.beginPath();
       ctx.moveTo(x - barW / 2 + r, bY);
       ctx.lineTo(x + barW / 2 - r, bY);
@@ -226,7 +271,8 @@ function drawChart(canvasId, displayData, chartType) {
       ctx.lineTo(x + barW / 2, bY + bH);
       ctx.lineTo(x - barW / 2, bY + bH);
       ctx.arcTo(x - barW / 2, bY, x - barW / 2 + r, bY, r);
-      ctx.closePath(); ctx.fill();
+      ctx.closePath(); 
+      if (!d.isEstimate) ctx.fill();
     });
   }
 
@@ -285,8 +331,14 @@ function initChart(allData) {
       const { color } = scoreColor(real[real.length - 1].score);
       const rd = document.getElementById("legendDotReal");
       const ed = document.getElementById("legendDotEst");
-      if (rd) rd.style.background = color;
-      if (ed) ed.style.background = color + "55";
+      if (rd) {
+        rd.style.background = color;
+        rd.style.border = "none";
+      }
+      if (ed) {
+        ed.style.background = "transparent";
+        ed.style.border = `2px dashed ${color}`;
+      }
     }
   }
 
@@ -379,19 +431,13 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
       homePage.classList.remove("exit"); resultPage.classList.remove("active"); return;
     }
 
-    let greenScore = aqi <= 300 ? 100 - (aqi / 3) : 0;
+    let greenScore = aqi <= 500 ? 100 - (aqi / 5) : 0;
     greenScore = Math.max(0, Math.min(100, Math.round(greenScore)));
 
     const lat = typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
     const lon = typeof data.lon === "number" ? data.lon : DEFAULT_LON;
 
-    let status = "Good";
-    if (greenScore < 60) status = "Moderate";
-    if (greenScore < 40) status = "Unhealthy";
-
-    let accent = "#2ecc71";
-    if (greenScore < 60) accent = "#f1840fff";
-    if (greenScore < 40) accent = "#e74c3c";
+    const { color: accent, label: status } = scoreColor(greenScore);
 
     document.documentElement.style.setProperty("--accent", accent);
 
@@ -399,24 +445,68 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
     saveHistory(city, greenScore);
     const chartData = buildChartData(city, greenScore);
 
+    function animateScore(target) {
+      const el = document.getElementById("animatedScore");
+      if (!el) return;
+      let current = 0;
+      const duration = 1500; // 1.5s
+      const start = performance.now();
+
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Easing: easeOutExpo
+        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const val = Math.floor(ease * target);
+        el.textContent = val;
+        if (progress < 1) requestAnimationFrame(update);
+        else el.textContent = target;
+      }
+      requestAnimationFrame(update);
+    }
+
+    // Build fallback notice if needed
+    let fallbackNotice = "";
+    if (data.originalCity && i1(data.originalCity) !== i1(data.city)) {
+      fallbackNotice = `
+        <div class="fallback-notice">
+          <span class="icon">⚠️</span>
+          <p>Station offline in <strong>${data.originalCity}</strong>. Showing data from nearest station: <strong>${data.city}</strong>.</p>
+        </div>
+      `;
+    } else if (data.source === "fallback") {
+      fallbackNotice = `
+        <div class="fallback-notice">
+          <span class="icon">⚠️</span>
+          <p>Regional sensors are currently offline. Showing estimated local air quality guidelines.</p>
+        </div>
+      `;
+    }
+
+    function i1(s) { return (s || "").toLowerCase().trim(); }
+
     // Render result
     resultSection.innerHTML = `
+      ${fallbackNotice}
       <div class="card">
         <div class="left">
-          <p>📍 ${city}</p>
-          <div class="meter">
-            <svg width="200" height="200">
-              <circle cx="100" cy="100" r="88" stroke="rgba(255,255,255,0.15)" stroke-width="12" fill="none" />
-              <circle cx="100" cy="100" r="88" stroke="var(--accent)" stroke-width="12" fill="none"
-                stroke-dasharray="552" stroke-dashoffset="552" stroke-linecap="round" />
-            </svg>
-            <div class="meter-text">
-              <span class="score">${greenScore}</span>
-              <span class="label">GreenScore</span>
+          <div class="score-block">
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">📍 ${city}</p>
+            <div class="meter">
+              <svg width="200" height="200">
+                <circle cx="100" cy="100" r="88" stroke="rgba(255,255,255,0.15)" stroke-width="12" fill="none" />
+                <circle class="meter-fill" cx="100" cy="100" r="88" stroke="var(--accent)" stroke-width="12" fill="none"
+                  stroke-dasharray="552" stroke-dashoffset="552" stroke-linecap="round" />
+              </svg>
+              <div class="meter-text">
+                <span class="score" id="animatedScore">0</span>
+                <span class="label">GreenScore</span>
+              </div>
             </div>
+            <div class="status" style="color:var(--accent); font-weight:600; font-size:1.1rem; margin-top:0.3rem;">${status}</div>
+            <p style="margin-top:0.5rem; opacity: 0.8;">AQI: <strong>${aqi}</strong></p>
           </div>
-          <div class="status">${status}</div>
-          <p>AQI: <strong>${aqi}</strong></p>
+
           <h4>What you should do today</h4>
           <div class="actions">
             ${data.actions.map(action => `
@@ -426,7 +516,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
               </div>
             `).join("")}
           </div>
-          <p class="status" style="margin-top:0.8rem;">Actions source: <strong>${data.source}</strong></p>
+          <p class="status" style="margin-top:0.8rem; font-size: 0.75rem; opacity: 0.5;">Actions source: <strong>${data.source}</strong></p>
         </div>
 
         <div class="info-block">
@@ -538,9 +628,10 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
 
     // Animate meter
     setTimeout(() => {
-      const circle = document.querySelector(".meter svg circle:nth-child(2)");
-      circle.style.transition = "stroke-dashoffset 1s ease";
+      const circle = document.querySelector(".meter svg circle.meter-fill");
+      circle.style.transition = "stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1)";
       circle.style.strokeDashoffset = 552 - (greenScore / 100) * 552;
+      animateScore(greenScore);
     }, 100);
 
     // Init chart

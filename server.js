@@ -1,6 +1,13 @@
 const fs = require("fs");
 const axios = require("axios");
 
+const cityFallbackMap = {
+  panvel: "navi mumbai",
+  Panvel: "navi mumbai",
+  hassan: "bengaluru",
+  Hassan: "bengaluru"
+};
+
 function logToFile(msg) {
   const logMsg = `[${new Date().toISOString()}] ${msg}\n`;
   try { fs.appendFileSync("server_debug.log", logMsg); } catch (e) { }
@@ -19,9 +26,9 @@ async function getAQI(city) {
   try {
     const response = await axios.get(url);
 
-    if (response.data.status !== "ok") {
-      logToFile(`AQICN Response Error: ${JSON.stringify(response.data)}`);
-      throw new Error(`AQICN failed: ${JSON.stringify(response.data.data)}`);
+    if (response.data.status !== "ok" || response.data.data.aqi === 0 || response.data.data.aqi === null) {
+      logToFile(`AQICN Response Error or 0-AQI: ${JSON.stringify(response.data)}`);
+      throw new Error(`AQICN failed or sensor offline (AQI: 0)`);
     }
 
     logToFile(`AQICN Success: AQI ${response.data.data.aqi}`);
@@ -113,7 +120,12 @@ Do not add extra text.
    VERCEL HANDLER
    ========================= */
 module.exports = async (req, res) => {
-  const city = req.query.city;
+  const originalCity = req.query.city;
+  let city = originalCity;
+
+  if (city && cityFallbackMap[city.toLowerCase()]) {
+    city = cityFallbackMap[city.toLowerCase()];
+  }
 
   if (!city) {
     return res.status(400).json({ error: "City required" });
@@ -144,8 +156,10 @@ module.exports = async (req, res) => {
       ];
     }
 
+    console.log(`Original: ${originalCity}, Selected: ${city}`);
     res.status(200).json({
       city,
+      originalCity: originalCity !== city ? originalCity : null,
       aqi,
       actions,
       source: "aqicn + gemini",
@@ -161,6 +175,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json({
       city,
+      originalCity: originalCity !== city ? originalCity : null,
       aqi: null,
       actions: [
         "Avoid outdoor exercise today.",

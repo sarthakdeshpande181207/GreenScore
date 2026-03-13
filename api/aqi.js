@@ -1,6 +1,8 @@
 const cityFallbackMap = {
   panvel: "navi mumbai",
-  Panvel: "navi mumbai"
+  Panvel: "navi mumbai",
+  hassan: "bengaluru",
+  Hassan: "bengaluru"
 };
 
 const axios = require("axios");
@@ -13,8 +15,8 @@ async function getAQI(city) {
   const response = await fetch(url);
   const data = await response.json();
 
-  if (data.status !== "ok") {
-    throw new Error("AQICN failed");
+  if (data.status !== "ok" || data.data.aqi === 0 || data.data.aqi === null) {
+    throw new Error("Sensor error or offline: AQI is 0 or null");
   }
 
   return {
@@ -68,9 +70,10 @@ Do not add extra text.
    VERCEL HANDLER
    ========================= */
 module.exports = async (req, res) => {
-  let city = req.query.city?.toLowerCase();
+  const originalCity = req.query.city;
+  let city = originalCity?.toLowerCase();
 
-  if (cityFallbackMap[city]) {
+  if (city && cityFallbackMap[city]) {
     city = cityFallbackMap[city];
   }
 
@@ -90,6 +93,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json({
       city,
+      originalCity: originalCity.toLowerCase() !== city.toLowerCase() ? originalCity : null,
       aqi,
       lat,
       lon,
@@ -101,6 +105,7 @@ module.exports = async (req, res) => {
 
     res.status(200).json({
       city,
+      originalCity: originalCity.toLowerCase() !== city.toLowerCase() ? originalCity : null,
       aqi: null,
       actions: [
         "Avoid outdoor exercise today.",

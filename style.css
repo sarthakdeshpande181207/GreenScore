@@ -219,6 +219,40 @@ button:hover {
   transform: translateY(-2px);
 }
 
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fallback-notice {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.4rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  margin-bottom: 1.5rem;
+  backdrop-filter: blur(14px);
+  animation: slideDown 0.4s ease;
+}
+
+.fallback-notice .icon {
+  font-size: 1.2rem;
+  color: #f1c40f;
+}
+
+.fallback-notice p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #e5e7eb;
+  opacity: 1 !important;
+}
+
+.fallback-notice p strong {
+  color: #f1c40f;
+}
+
 .card {
   display: grid;
   grid-template-columns: minmax(300px, 1.2fr) 1fr 1fr;
@@ -242,14 +276,25 @@ button:hover {
   flex-direction: column;
 }
 
+.score-block {
+  padding: 1.5rem 2rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(14px);
+  margin-bottom: 1.2rem;
+  display: flex;
+  flex-direction: column;
+}
+
 .info-block {
   grid-area: info;
   margin: 0;
   padding: 1.5rem 2rem;
   align-self: flex-start;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 225, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(14px);
   width: 100%;
   height: 321px;
@@ -306,6 +351,10 @@ button:hover {
 
 .meter svg {
   transform: rotate(-90deg);
+}
+
+.meter-fill {
+  transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .meter-text {
@@ -822,14 +871,15 @@ button:hover {
 }
 
 .loading-circle {
-  width: 50px;
-  height: 50px;
-  border: 4px solid rgba(255, 255, 255, 0.2);
-  border-top-color: var(--accent, #2ecc71);
+  width: 54px;
+  height: 54px;
+  border: 4px solid rgba(46, 204, 113, 0.1);
+  border-top: 4px solid #2ecc71;
+  border-right: 4px solid #2ecc71;
   border-radius: 50%;
-  animation: spin 1s infinite linear;
+  animation: spin 0.8s infinite linear;
   margin-bottom: 24px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 20px rgba(46, 204, 113, 0.4);
 }
 
 .loading-text {
