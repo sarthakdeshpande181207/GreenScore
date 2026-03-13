@@ -558,28 +558,33 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
     let greenScore = aqi <= 500 ? 100 - (aqi / 5) : 0;
     greenScore = Math.max(0, Math.min(100, Math.round(greenScore)));
 
-    // 🛰️ Frontend Precision Fallback: Specifically for Regional refinement
+    // 🛰️ Global Precision: Prioritize coordinates from backend
     let lat, lon;
-    try {
-      const geoRes = await fetch(
-        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city + ", Maharashtra, India")}&format=json&limit=1`,
-        { headers: { "User-Agent": "GreenScoreApp/1.0" } }
-      );
-      const geoData = await geoRes.json();
-      console.log("Nominatim response:", geoData); 
-      
-      if (geoData && geoData.length > 0) {
-        lat = parseFloat(geoData[0].lat);
-        lon = parseFloat(geoData[0].lon);
-        console.log("Using Nominatim coords:", lat, lon);
-      } else {
-        lat = typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
-        lon = typeof data.lon === "number" ? data.lon : DEFAULT_LON;
+    if (typeof data.lat === "number" && typeof data.lon === "number") {
+      lat = data.lat;
+      lon = data.lon;
+      console.log("Using backend coordinates:", lat, lon);
+    } else {
+      // Last resort fallback: Frontend geocoding (global)
+      try {
+        const geoRes = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`,
+          { headers: { "User-Agent": "GreenScoreApp/1.0" } }
+        );
+        const geoData = await geoRes.json();
+        if (geoData && geoData.length > 0) {
+          lat = parseFloat(geoData[0].lat);
+          lon = parseFloat(geoData[0].lon);
+          console.log("Using Nominatim fallback coords:", lat, lon);
+        } else {
+          lat = DEFAULT_LAT;
+          lon = DEFAULT_LON;
+        }
+      } catch (e) {
+        console.warn("Nominatim fallback failed:", e);
+        lat = DEFAULT_LAT;
+        lon = DEFAULT_LON;
       }
-    } catch (e) {
-      console.warn("Nominatim failed:", e);
-      lat = typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
-      lon = typeof data.lon === "number" ? data.lon : DEFAULT_LON;
     }
 
     const { color: accent, label: status } = scoreColor(greenScore);
