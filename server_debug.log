@@ -279,3 +279,50 @@
 [2026-03-11T18:42:00.057Z] Requesting AQI for: london (Token length: 40)
 [2026-03-11T18:42:00.059Z] URL: https://api.waqi.info/feed/london/?token=MASKED
 [2026-03-11T18:42:00.563Z] AQICN Success: AQI 42
+[2026-03-13T16:11:07.752Z] Requesting AQI for: navi mumbai (Token length: 40)
+[2026-03-13T16:11:07.755Z] URL: https://api.waqi.info/feed/navi%20mumbai/?token=MASKED
+[2026-03-13T16:11:07.903Z] AQICN Success: AQI 91
+[2026-03-13T16:30:35.166Z] Requesting AQI for: sanderao (Token length: 40)
+[2026-03-13T16:30:35.170Z] URL: https://api.waqi.info/feed/sanderao/?token=MASKED
+[2026-03-13T16:30:36.743Z] AQICN Response Error or 0-AQI: {"status":"error","data":"Unknown station"}
+[2026-03-13T16:30:36.745Z] Axios Error: AQICN failed or sensor offline (AQI: 0)
+[2026-03-13T16:30:48.872Z] Requesting AQI for: seawoods (Token length: 40)
+[2026-03-13T16:30:48.874Z] URL: https://api.waqi.info/feed/seawoods/?token=MASKED
+[2026-03-13T16:30:49.133Z] AQICN Response Error or 0-AQI: {"status":"error","data":"Unknown station"}
+[2026-03-13T16:30:49.135Z] Axios Error: AQICN failed or sensor offline (AQI: 0)
+[2026-03-13T16:30:54.943Z] Requesting AQI for: seawood (Token length: 40)
+[2026-03-13T16:30:54.944Z] URL: https://api.waqi.info/feed/seawood/?token=MASKED
+[2026-03-13T16:30:56.641Z] AQICN Response Error or 0-AQI: {"status":"error","data":"Unknown station"}
+[2026-03-13T16:30:56.645Z] Axios Error: AQICN failed or sensor offline (AQI: 0)
+[2026-03-13T16:31:12.748Z] Requesting AQI for: Bandra, Mumbai, India (Token length: 40)
+[2026-03-13T16:31:12.751Z] URL: https://api.waqi.info/feed/Bandra%2C%20Mumbai%2C%20India/?token=MASKED
+[2026-03-13T16:31:13.043Z] AQICN Success: AQI -
+[2026-03-13T16:31:23.113Z] Requesting AQI for: navi mumbai (Token length: 40)
+[2026-03-13T16:31:23.114Z] URL: https://api.waqi.info/feed/navi%20mumbai/?token=MASKED
+[2026-03-13T16:31:23.935Z] AQICN Success: AQI 91
+[2026-03-13T16:31:33.426Z] Requesting AQI for: kurla (Token length: 40)
+[2026-03-13T16:31:33.428Z] URL: https://api.waqi.info/feed/kurla/?token=MASKED
+[2026-03-13T16:31:34.828Z] AQICN Success: AQI 95
+[2026-03-13T16:32:01.736Z] Requesting AQI for: bandra (Token length: 40)
+[2026-03-13T16:32:01.737Z] URL: https://api.waqi.info/feed/bandra/?token=MASKED
+[2026-03-13T16:32:02.098Z] AQICN Response Error or 0-AQI: {"status":"error","data":"Unknown station"}
+[2026-03-13T16:32:02.100Z] Axios Error: AQICN failed or sensor offline (AQI: 0)
+[2026-03-13T16:54:07.800Z] Requesting AQI for: kurla (Token length: 40)
+[2026-03-13T16:54:07.805Z] URL: https://api.waqi.info/feed/kurla/?token=MASKED
+[2026-03-13T16:54:56.551Z] AQICN Success: AQI 95
+[2026-03-13T17:11:56.615Z] Requesting AQI for: kurla (Token length: 40)
+[2026-03-13T17:11:56.618Z] URL: https://api.waqi.info/feed/kurla/?token=MASKED
+[2026-03-13T17:11:58.689Z] AQICN Success: AQI 95
+[2026-03-13T17:12:29.141Z] Requesting AQI for: Kurla, Mumbai, India (Token length: 40)
+[2026-03-13T17:12:29.143Z] URL: https://api.waqi.info/feed/Kurla%2C%20Mumbai%2C%20India/?token=MASKED
+[2026-03-13T17:12:33.330Z] AQICN Success: AQI 89
+[2026-03-13T17:13:02.091Z] Requesting AQI for: Bandra, Mumbai, India (Token length: 40)
+[2026-03-13T17:13:02.092Z] URL: https://api.waqi.info/feed/Bandra%2C%20Mumbai%2C%20India/?token=MASKED
+[2026-03-13T17:13:02.664Z] AQICN Success: AQI -
+[2026-03-13T17:13:20.377Z] Requesting AQI for: thane (Token length: 40)
+[2026-03-13T17:13:20.379Z] URL: https://api.waqi.info/feed/thane/?token=MASKED
+[2026-03-13T17:13:21.606Z] AQICN Success: AQI 77
+[2026-03-13T17:13:57.555Z] Requesting AQI for: badlapur (Token length: 40)
+[2026-03-13T17:13:57.557Z] URL: https://api.waqi.info/feed/badlapur/?token=MASKED
+[2026-03-13T17:14:16.199Z] AQICN Response Error or 0-AQI: {"status":"error","data":"Unknown station"}
+[2026-03-13T17:14:16.203Z] Axios Error: AQICN failed or sensor offline (AQI: 0)

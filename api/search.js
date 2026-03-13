@@ -7,6 +7,18 @@ module.exports = async (req, res) => {
     return res.status(600).json([]);
   }
 
+  // Rate Limiter
+  const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '127.0.0.1';
+  const now = Date.now();
+  if (!global.searchRateLimit) global.searchRateLimit = new Map();
+  let requests = global.searchRateLimit.get(ip) || [];
+  requests = requests.filter(time => now - time < 60000); // 1 minute window
+  if (requests.length >= 30) {
+    return res.status(429).json({ error: "Too many requests" });
+  }
+  requests.push(now);
+  global.searchRateLimit.set(ip, requests);
+
   const token = process.env.AQICN_TOKEN ? process.env.AQICN_TOKEN.trim() : "";
   if (!token) {
     return res.status(500).json({ error: "Missing AQICN_TOKEN" });

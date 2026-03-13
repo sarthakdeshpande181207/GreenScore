@@ -2,7 +2,9 @@ const cityFallbackMap = {
   panvel: "navi mumbai",
   Panvel: "navi mumbai",
   hassan: "bengaluru",
-  Hassan: "bengaluru"
+  Hassan: "bengaluru",
+  kurla: "mumbai",
+  Kurla: "mumbai"
 };
 
 const axios = require("axios");
@@ -10,12 +12,47 @@ const axios = require("axios");
 /* =========================
    GET AQI FROM AQICN
    ========================= */
-async function getAQI(city) {
-  const url = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
+async function getAQI(city, uid) {
+  let url;
+  if (uid) {
+    url = `https://api.waqi.info/feed/@${uid}/?token=${process.env.AQICN_TOKEN}`;
+  } else {
+    try {
+      // 1. Universal Geocoding: Get exact lat/lon for the typed city
+      const nomRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`, {
+        headers: { "User-Agent": "GreenScoreApp/1.0" }
+      });
+      const nomData = await nomRes.json();
+      if (nomData && nomData.length > 0) {
+        const lat = nomData[0].lat;
+        const lon = nomData[0].lon;
+        url = `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${process.env.AQICN_TOKEN}`;
+      } else {
+        url = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
+      }
+    } catch (err) {
+      console.error("Nominatim geocoding error:", err);
+      url = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
+    }
+  }
+
   const response = await fetch(url);
   const data = await response.json();
 
   if (data.status !== "ok" || data.data.aqi === 0 || data.data.aqi === null) {
+    if (!uid) {
+      // Very last resort if Nominatim geometry failed in AQICN database
+      const fbUrl = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
+      const fbRes = await fetch(fbUrl);
+      const fbData = await fbRes.json();
+      if (fbData.status === "ok" && fbData.data.aqi !== 0 && fbData.data.aqi !== null) {
+        return {
+          aqi: fbData.data.aqi,
+          lat: fbData.data.city.geo[0],
+          lon: fbData.data.city.geo[1]
+        };
+      }
+    }
     throw new Error("Sensor error or offline: AQI is 0 or null");
   }
 
@@ -81,6 +118,21 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "City required" });
   }
 
+  // Rate Limiter
+  const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '127.0.0.1';
+  const now = Date.now();
+  if (!global.aqiRateLimit) global.aqiRateLimit = new Map();
+  let requests = global.aqiRateLimit.get(ip) || [];
+  requests = requests.filter(time => now - time < 60000); // 1 minute window
+  if (requests.length >= 15) {
+    return res.status(429).json({ 
+      error: "rate_limit", 
+      message: "Security Notice: Rate limit exceeded. Please wait 60 seconds." 
+    });
+  }
+  requests.push(now);
+  global.aqiRateLimit.set(ip, requests);
+
   try {
     // We can fetch AQI first, then pass it to Gemini.
     // However, if AQI is fast but Gemini is slow, we can just fetch them in parallel 
@@ -88,7 +140,8 @@ module.exports = async (req, res) => {
     // or we can keep them sequential but use `fetch` to fix the Windows DNS bug.
     //
     // Since the prompt requires AQI, we'll keep them sequential but use native fetch!
-    const { aqi, lat, lon } = await getAQI(city);
+    const uid = req.query.uid;
+    const { aqi, lat, lon } = await getAQI(city, uid);
     const actions = await getGeminiActions(city, aqi);
 
     res.status(200).json({

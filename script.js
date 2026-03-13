@@ -454,6 +454,7 @@ let debounceTimeout;
 
 cityInput.addEventListener("input", (e) => {
   const keyword = e.target.value.trim();
+  delete cityInput.dataset.uid; // Clear UID when user manually types
   
   clearTimeout(debounceTimeout);
   
@@ -479,7 +480,7 @@ cityInput.addEventListener("input", (e) => {
 
       // Render suggestions
       suggestionsBox.innerHTML = suggestions.map(city => `
-        <div class="suggestion-item">
+        <div class="suggestion-item" data-uid="${city.uid}">
           <i>🌍</i> <span>${city.name}</span>
         </div>
       `).join("");
@@ -491,6 +492,7 @@ cityInput.addEventListener("input", (e) => {
       items.forEach(item => {
         item.addEventListener("click", () => {
           cityInput.value = item.querySelector("span").textContent;
+          cityInput.dataset.uid = item.dataset.uid;
           suggestionsBox.classList.remove("active");
           document.getElementById("checkBtn").click(); // Auto-search
         });
@@ -511,13 +513,17 @@ document.addEventListener("click", (e) => {
 
 document.getElementById("checkBtn").addEventListener("click", async () => {
   suggestionsBox.classList.remove("active"); // Hide on search click
-  const city = document.getElementById("cityInput").value;
+  const cityInputEl = document.getElementById("cityInput");
+  const city = cityInputEl.value;
+  const uid = cityInputEl.dataset.uid;
   if (!city) { showErrorModal("custom", { msg: "Please enter a city name" }); return; }
 
   try {
     showLoader("Connecting to Satellite...");
 
-    const response = await fetch(`/api/aqi?city=${city}`);
+    let url = `/api/aqi?city=${encodeURIComponent(city)}`;
+    if (uid) url += `&uid=${uid}`;
+    const response = await fetch(url);
     
     if (response.status === 429) {
       showErrorModal("429");
@@ -583,13 +589,18 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
       requestAnimationFrame(update);
     }
 
+    function escapeHTML(str) {
+      if (!str) return "";
+      return String(str).replace(/[&<>'"]/g, tag => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'}[tag]));
+    }
+
     // Build fallback notice if needed
     let fallbackNotice = "";
     if (data.originalCity && i1(data.originalCity) !== i1(data.city)) {
       fallbackNotice = `
         <div class="fallback-notice">
           <span class="icon">⚠️</span>
-          <p>Station offline in <strong>${data.originalCity}</strong>. Showing data from nearest station: <strong>${data.city}</strong>.</p>
+          <p>Station offline in <strong>${escapeHTML(data.originalCity)}</strong>. Showing data from nearest station: <strong>${escapeHTML(data.city)}</strong>.</p>
         </div>
       `;
     } else if (data.source === "fallback") {
@@ -609,7 +620,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
       <div class="card">
         <div class="left">
           <div class="score-block">
-            <p style="font-size: 1.1rem; margin-bottom: 1rem;">📍 ${city}</p>
+            <p style="font-size: 1.1rem; margin-bottom: 1rem;">📍 ${escapeHTML(city)}</p>
             <div class="meter">
               <svg width="200" height="200">
                 <circle cx="100" cy="100" r="88" stroke="rgba(255,255,255,0.15)" stroke-width="12" fill="none" />
@@ -621,8 +632,8 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
                 <span class="label">GreenScore</span>
               </div>
             </div>
-            <div class="status" style="color:var(--accent); font-weight:600; font-size:1.1rem; margin-top:0.3rem;">${status}</div>
-            <p style="margin-top:0.5rem; opacity: 0.8;">AQI: <strong>${aqi}</strong></p>
+            <div class="status" style="color:var(--accent); font-weight:600; font-size:1.1rem; margin-top:0.3rem;">${escapeHTML(status)}</div>
+            <p style="margin-top:0.5rem; opacity: 0.8;">AQI: <strong>${escapeHTML(aqi)}</strong></p>
           </div>
 
           <h4>What you should do today</h4>
@@ -630,11 +641,11 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
             ${data.actions.map(action => `
               <div class="action-card">
                 <span class="icon">💡</span>
-                <p>${action}</p>
+                <p>${escapeHTML(action)}</p>
               </div>
             `).join("")}
           </div>
-          <p class="status" style="margin-top:0.8rem; font-size: 0.75rem; opacity: 0.5;">Actions source: <strong>${data.source}</strong></p>
+          <p class="status" style="margin-top:0.8rem; font-size: 0.75rem; opacity: 0.5;">Actions source: <strong>${escapeHTML(data.source)}</strong></p>
         </div>
 
         <div class="info-block">
@@ -649,8 +660,8 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
 
         <div class="map">
           <div class="map-header">
-            <span class="map-title">📍 ${city}</span>
-            <span class="map-aqi-badge" style="background:${accent}22;border-color:${accent};color:${accent};">AQI ${aqi}</span>
+            <span class="map-title">📍 ${escapeHTML(city)}</span>
+            <span class="map-aqi-badge" style="background:${accent}22;border-color:${accent};color:${accent};">AQI ${escapeHTML(aqi)}</span>
           </div>
           <div id="map"></div>
         </div>
@@ -722,9 +733,9 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
 
         L.marker([lat, lon], { icon: customIcon }).addTo(greenScoreMap)
           .bindPopup(`<div style="font-family:Poppins,sans-serif;text-align:center;padding:4px 8px;min-width:120px;">
-            <strong style="font-size:1rem;">📍 ${city}</strong><br/>
-            <span style="color:${accent};font-weight:600;">AQI: ${aqi}</span><br/>
-            <span style="font-size:0.75rem;opacity:0.7;">${status}</span>
+            <strong style="font-size:1rem;">📍 ${escapeHTML(city)}</strong><br/>
+            <span style="color:${accent};font-weight:600;">AQI: ${escapeHTML(aqi)}</span><br/>
+            <span style="font-size:0.75rem;opacity:0.7;">${escapeHTML(status)}</span>
           </div>`).openPopup();
 
         setTimeout(() => {
