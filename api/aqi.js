@@ -149,7 +149,8 @@ module.exports = async (req, res) => {
     //
     // Since the prompt requires AQI, we'll keep them sequential but use native fetch!
     const uid = req.query.uid;
-    const { aqi, lat, lon } = await getAQI(city, uid);
+    const searchCity = req.query.search_city || city;
+    const { aqi, lat, lon } = await getAQI(searchCity, uid);
     const actions = await getGeminiActions(city, aqi);
 
     res.status(200).json({

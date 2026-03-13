@@ -2,9 +2,9 @@ const homePage = document.querySelector(".home-page");
 const resultPage = document.querySelector(".result-page");
 const resultSection = document.getElementById("resultSection");
 
-// Default map center: Navi Mumbai
-const DEFAULT_LAT = 19.0330;
-const DEFAULT_LON = 73.0297;
+// Default map center: Neutral (Global)
+const DEFAULT_LAT = 0.0000;
+const DEFAULT_LON = 0.0000;
 
 let greenScoreMap = null;
 
@@ -523,6 +523,11 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
 
     let url = `/api/aqi?city=${encodeURIComponent(city)}`;
     if (uid) url += `&uid=${uid}`;
+    
+    // Add search_city to preserve the user's intended location for the map pin
+    const searchKeyword = cityInputEl.value.trim();
+    if (searchKeyword) url += `&search_city=${encodeURIComponent(searchKeyword)}`;
+
     const response = await fetch(url);
     
     if (response.status === 429) {
