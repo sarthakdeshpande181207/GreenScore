@@ -447,7 +447,70 @@ document.getElementById("errorModal").addEventListener("click", (e) => {
   }
 });
 
+// AUTOCOMPLETE LOGIC
+const cityInput = document.getElementById("cityInput");
+const suggestionsBox = document.getElementById("suggestionsBox");
+let debounceTimeout;
+
+cityInput.addEventListener("input", (e) => {
+  const keyword = e.target.value.trim();
+  
+  clearTimeout(debounceTimeout);
+  
+  if (keyword.length < 2) {
+    suggestionsBox.classList.remove("active");
+    suggestionsBox.innerHTML = "";
+    return;
+  }
+
+  // Debounce API calls by 400ms to avoid spamming the backend
+  debounceTimeout = setTimeout(async () => {
+    try {
+      const res = await fetch(`/api/search?keyword=${encodeURIComponent(keyword)}`);
+      if (!res.ok) throw new Error("Search failed");
+      
+      const suggestions = await res.json();
+      
+      if (suggestions.length === 0) {
+        suggestionsBox.classList.remove("active");
+        suggestionsBox.innerHTML = "";
+        return;
+      }
+
+      // Render suggestions
+      suggestionsBox.innerHTML = suggestions.map(city => `
+        <div class="suggestion-item">
+          <i>🌍</i> <span>${city.name}</span>
+        </div>
+      `).join("");
+      
+      suggestionsBox.classList.add("active");
+
+      // Handle clicking a suggestion
+      const items = suggestionsBox.querySelectorAll(".suggestion-item");
+      items.forEach(item => {
+        item.addEventListener("click", () => {
+          cityInput.value = item.querySelector("span").textContent;
+          suggestionsBox.classList.remove("active");
+          document.getElementById("checkBtn").click(); // Auto-search
+        });
+      });
+
+    } catch (err) {
+      console.error("Autocomplete error:", err);
+    }
+  }, 400);
+});
+
+// Hide autocomplete when clicking outside
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".search-container")) {
+    suggestionsBox.classList.remove("active");
+  }
+});
+
 document.getElementById("checkBtn").addEventListener("click", async () => {
+  suggestionsBox.classList.remove("active"); // Hide on search click
   const city = document.getElementById("cityInput").value;
   if (!city) { showErrorModal("custom", { msg: "Please enter a city name" }); return; }
 

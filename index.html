@@ -31,16 +31,16 @@
     <!-- HOME PAGE -->
     <section class="page home-page active">
       <h1>Check your city's air quality</h1>
-      <p>
-        Understand today’s air quality and get actionable insights
-        to reduce pollution in your community.
-      </p>
-
-      <div class="input-group">
-        <input type="text" id="cityInput" placeholder="Enter city name..." />
-        <button id="checkBtn">Check GreenScore</button>
-      </div>
-
+          <p>
+            Enter your city to instantly get real-time Air Quality Index, precise GPS mapping, and actionable health suggestions.
+          </p>
+          <div class="search-container">
+            <div class="input-group">
+              <input type="text" id="cityInput" placeholder="e.g., London, Tokyo, Mumbai" autocomplete="off" />
+              <button id="checkBtn">Analyse</button>
+            </div>
+            <div id="suggestionsBox" class="suggestions-box"></div>
+          </div>
       <!-- EXTRA CONTENT -->
       <div class="hero-extra">
         <p class="tagline">
