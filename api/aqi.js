@@ -8,20 +8,16 @@ async function getAQI(city, uid) {
   let targetLat = null;
   let targetLon = null;
 
-  if (uid) {
-    url = `https://api.waqi.info/feed/@${uid}/?token=${process.env.AQICN_TOKEN}`;
-  } else {
-    try {
-      // 1. Universal Geocoding: Get exact lat/lon for the typed city
-      const nomRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=10&q=${encodeURIComponent(city)}`, {
-        headers: { 
-          "User-Agent": "GreenScoreApp/1.0",
-          "Accept": "application/json"
-        }
-      });
-      
-      if (!nomRes.ok) throw new Error(`Status ${nomRes.status}`);
-
+  try {
+    // 1. Universal Geocoding: Get exact lat/lon for the typed city
+    const nomRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=10&q=${encodeURIComponent(city)}`, {
+      headers: { 
+        "User-Agent": "GreenScoreApp/1.0",
+        "Accept": "application/json"
+      }
+    });
+    
+    if (nomRes.ok) {
       const nomData = await nomRes.json();
       if (nomData && nomData.length > 0) {
         // Prioritize administrative/city center types over specific landmarks (like stations)
@@ -36,12 +32,18 @@ async function getAQI(city, uid) {
 
         targetLat = parseFloat(bestMatch.lat);
         targetLon = parseFloat(bestMatch.lon);
-        url = `https://api.waqi.info/feed/geo:${targetLat};${targetLon}/?token=${process.env.AQICN_TOKEN}`;
-      } else {
-        url = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
       }
-    } catch (err) {
-      console.error("Nominatim geocoding error:", err);
+    }
+  } catch (err) {
+    console.error("Nominatim geocoding error:", err);
+  }
+
+  if (uid) {
+    url = `https://api.waqi.info/feed/@${uid}/?token=${process.env.AQICN_TOKEN}`;
+  } else {
+    if (targetLat !== null && targetLon !== null) {
+      url = `https://api.waqi.info/feed/geo:${targetLat};${targetLon}/?token=${process.env.AQICN_TOKEN}`;
+    } else {
       url = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
     }
   }
