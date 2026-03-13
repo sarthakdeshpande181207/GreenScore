@@ -1,76 +1,70 @@
-# 🌱 GreenScore – AI Powered Air Quality Awareness Platform
+# 🌱 GreenScore – AI-Powered Global Air Quality Platform
 
-GreenScore is a full-stack web application that displays **real-time Air Quality Index (AQI) data** for cities and presents insights to promote environmental awareness.
-
-This project was developed as part of a TechSprint hackathon and is ready for live demonstration.
-
-GOOGLE TECHNOLOGY USED : GOOGLE GEMINI AI
----
-
-### 🌿 What is GreenScore?
-
-GreenScore is a simple score (0-100) derived from the city’s AQI value that represents how environmentally safe the air is.  
-A higher GreenScore indicates better air quality and healthier conditions, while a lower score highlights pollution risk.
-
-## 🚀 Features
-
-- 🌍 City-based AQI data using AQICN API
-- 🟢 GreenScore calculation based on AQI values
-- 🧠 3 Insightful suggestions based on air quality from Google Gemini AI
-- 🗺️ City map preview (future integration)
-- ⚠️ Clear backend dependency handling
+GreenScore is a premium, full-stack web app designed to track **real-time Air Quality (AQI)** across the globe. It combines satellite data with **Google Gemini AI** to provide personalized health actions in a stunning modern interface.
 
 ---
 
-## 🛠️ Tech Overview
+## 🚀 Key Features
 
-- Frontend: HTML, CSS, JavaScript  
-- Backend: Node.js (Express)
-- AQI Data Source: AQICN API
-- Actions Source: Gemini AI 
----
+### 1. Accurate City Mapping
+*   **Precise Pinning:** Automatically centers the map on the geographical heart of the city you search, ensuring you fly directly to the right location every time.
+*   **Global Search:** Type any city worldwide and the map intelligently resolves the location to drop a marker at the city center.
 
-## 🌐 Live Demo & Backend Note
+### 2. AI Health Insights
+*   **Google Gemini 2.5 Integration:** Provides 3 custom health advisories based on the specific air quality of the searched city.
+*   **Dynamic Logic:** Health suggestions update instantly based on changing pollution levels.
 
-This project is deployed on **GitHub Pages** for UI preview:
+### 3. Interactive Data Dashboard
+*   **AQI Trends:** Toggle between **Area** and **Bar** charts to see the air quality history over the last 15 days.
+*   **GreenScore Meter:** A visual SVG dial that turns complex AQI data into a clear 0-100 score.
+*   **Satellite & Street Views:** Switch map layers to see high-resolution satellite imagery or standard street maps.
 
-🔗 Frontend (UI Preview):  
-https://sarthakdeshpande181207.github.io/GreenScore/
-
-🔗 Full demo:
-
-https://green-score-hazel.vercel.app/
-
-NOTE !! : THE RESULT PAGE WONT BE SHOWN IF FREE TIER LIMITS OF API ARE EXHAUSTED 
-
-⚠️ **Important:**  
-GitHub Pages supports only static frontend files (HTML, CSS, JavaScript).  
-The **Node.js backend** used to fetch real-time AQI data **does not run on GitHub Pages**.
+### 4. Smart Security & Speed
+*   **XSS Protection:** All search results and data are sanitized to keep the site secure.
+*   **Rate Limiting:** Prevents API abuse to ensure the service stays fast for everyone.
+*   **Autocomplete Search:** Fast, debounced search box that helps you find cities as you type.
 
 ---
 
-## ⚠️ Note for Evaluators
+## 🛠️ Tech Stack
 
-The GreenScore application is fully deployed on **Vercel** and can be accessed through the live demo link.
+*   **Intelligence:** Google Gemini AI API
+*   **Data Source:** World Air Quality Index (AQICN)
+*   **Mapping:** OpenStreetMap & Esri Satellite Layers
+*   **Frontend:** HTML, CSS (Glassmorphism), JavaScript (Chart.js, Leaflet.js)
+*   **Backend:** Node.js (Express)
 
-- The **frontend and backend** are hosted together using Vercel serverless functions.
-- Real-time AQI data is fetched securely, and **AI-generated insights are powered by Google Gemini AI**.
-- API keys are managed using environment variables to ensure security.
-
-If a specific city does not have a dedicated AQI monitoring station (e.g., Panvel), the system intelligently uses data from the **nearest major city** to provide meaningful and reliable insights.
-
-The deployed version represents the **complete and intended functionality** of the solution.
 ---
 
-## 👥 Team
+## 🚀 Setup & Installation
 
-**Team Name:** Tech Strikers  
-**Hackathon:** TechSprint AI Hack'25 GDG PCE
- 
-**Members:**
-- Prasad Kokare (leader)
-- Sarthak Deshpande
-- Bhavesh Kumawat
-- Prajwal Mote
+1.  **Clone the Repository:**
+    ```bash
+    git clone https://github.com/sarthakdeshpande181207/GreenScore.git
+    ```
+2.  **Install Dependencies:**
+    ```bash
+    npm install
+    ```
+3.  **Environment Variables:** Create a `.env` file:
+    ```env
+    AQICN_TOKEN=your_token_here
+    GEMINI_API_KEY=your_key_here
+    PORT=3000
+    ```
+4.  **Launch:**
+    ```bash
+    npm start
+    ```
+
+---
+
+## 👥 Meet the Team: Tech Strikers
+*Developed for TechSprint AI Hack'25 (GDG PCE)*
+
+*   **Prasad Kokare** (Lead)
+*   **Sarthak Deshpande**
+*   **Bhavesh Kumawat**
+*   **Prajwal Mote**
 
 
