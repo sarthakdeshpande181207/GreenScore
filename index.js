@@ -1,7 +1,7 @@
 const express = require("express");
 const process = require("process");
 const path = require("path");
-const apiHandler = require("./server"); // Import the Vercel handler
+const apiHandler = require("./api/aqi"); // Import the Vercel handler
 
 require("dotenv").config(); // Load environment variables
 

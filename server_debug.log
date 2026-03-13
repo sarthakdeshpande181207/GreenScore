@@ -326,3 +326,18 @@
 [2026-03-13T17:13:57.557Z] URL: https://api.waqi.info/feed/badlapur/?token=MASKED
 [2026-03-13T17:14:16.199Z] AQICN Response Error or 0-AQI: {"status":"error","data":"Unknown station"}
 [2026-03-13T17:14:16.203Z] Axios Error: AQICN failed or sensor offline (AQI: 0)
+[2026-03-13T17:35:51.057Z] Requesting AQI for: navi mumbai (Token length: 40)
+[2026-03-13T17:35:51.057Z] URL: https://api.waqi.info/feed/navi%20mumbai/?token=MASKED
+[2026-03-13T17:35:51.466Z] AQICN Success: AQI 91
+[2026-03-13T17:37:50.590Z] Requesting AQI for: navi mumbai (Token length: 40)
+[2026-03-13T17:37:50.591Z] URL: https://api.waqi.info/feed/navi%20mumbai/?token=MASKED
+[2026-03-13T17:37:51.131Z] AQICN Success: AQI 91
+[2026-03-13T17:38:16.281Z] Requesting AQI for: navi mumbai (Token length: 40)
+[2026-03-13T17:38:16.283Z] URL: https://api.waqi.info/feed/navi%20mumbai/?token=MASKED
+[2026-03-13T17:38:16.715Z] AQICN Success: AQI 91
+[2026-03-13T17:40:42.478Z] Requesting AQI for: navi mumbai (Token length: 40)
+[2026-03-13T17:40:42.479Z] URL: https://api.waqi.info/feed/navi%20mumbai/?token=MASKED
+[2026-03-13T17:40:43.059Z] AQICN Success: AQI 91
+[2026-03-13T17:41:59.525Z] Requesting AQI for: navi mumbai (Token length: 40)
+[2026-03-13T17:41:59.525Z] URL: https://api.waqi.info/feed/navi%20mumbai/?token=MASKED
+[2026-03-13T17:41:59.969Z] AQICN Success: AQI 91

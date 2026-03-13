@@ -558,8 +558,29 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
     let greenScore = aqi <= 500 ? 100 - (aqi / 5) : 0;
     greenScore = Math.max(0, Math.min(100, Math.round(greenScore)));
 
-    const lat = typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
-    const lon = typeof data.lon === "number" ? data.lon : DEFAULT_LON;
+    // 🛰️ Frontend Precision Fallback: Specifically for Regional refinement
+    let lat, lon;
+    try {
+      const geoRes = await fetch(
+        `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city + ", Maharashtra, India")}&format=json&limit=1`,
+        { headers: { "User-Agent": "GreenScoreApp/1.0" } }
+      );
+      const geoData = await geoRes.json();
+      console.log("Nominatim response:", geoData); 
+      
+      if (geoData && geoData.length > 0) {
+        lat = parseFloat(geoData[0].lat);
+        lon = parseFloat(geoData[0].lon);
+        console.log("Using Nominatim coords:", lat, lon);
+      } else {
+        lat = typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
+        lon = typeof data.lon === "number" ? data.lon : DEFAULT_LON;
+      }
+    } catch (e) {
+      console.warn("Nominatim failed:", e);
+      lat = typeof data.lat === "number" ? data.lat : DEFAULT_LAT;
+      lon = typeof data.lon === "number" ? data.lon : DEFAULT_LON;
+    }
 
     const { color: accent, label: status } = scoreColor(greenScore);
 
@@ -719,7 +740,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
         );
         const hybridLayer = L.layerGroup([satelliteBase, satelliteLabels]);
 
-        greenScoreMap = L.map("map", { center: [lat, lon], zoom: 14, layers: [hybridLayer], zoomControl: true });
+        greenScoreMap = L.map("map", { center: [lat, lon], zoom: 12, layers: [hybridLayer], zoomControl: true });
 
         L.control.layers({
           "<span class='layer-btn layer-satellite'>🛰️ Satellite</span>": hybridLayer,

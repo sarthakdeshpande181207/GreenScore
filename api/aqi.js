@@ -1,12 +1,3 @@
-const cityFallbackMap = {
-  panvel: "navi mumbai",
-  Panvel: "navi mumbai",
-  hassan: "bengaluru",
-  Hassan: "bengaluru",
-  kurla: "mumbai",
-  Kurla: "mumbai"
-};
-
 const axios = require("axios");
 
 /* =========================
@@ -14,19 +5,38 @@ const axios = require("axios");
    ========================= */
 async function getAQI(city, uid) {
   let url;
+  let targetLat = null;
+  let targetLon = null;
+
   if (uid) {
     url = `https://api.waqi.info/feed/@${uid}/?token=${process.env.AQICN_TOKEN}`;
   } else {
     try {
       // 1. Universal Geocoding: Get exact lat/lon for the typed city
-      const nomRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`, {
-        headers: { "User-Agent": "GreenScoreApp/1.0" }
+      const nomRes = await fetch(`https://nominatim.openstreetmap.org/search?format=json&limit=10&q=${encodeURIComponent(city)}`, {
+        headers: { 
+          "User-Agent": "GreenScoreApp/1.0",
+          "Accept": "application/json"
+        }
       });
+      
+      if (!nomRes.ok) throw new Error(`Status ${nomRes.status}`);
+
       const nomData = await nomRes.json();
       if (nomData && nomData.length > 0) {
-        const lat = nomData[0].lat;
-        const lon = nomData[0].lon;
-        url = `https://api.waqi.info/feed/geo:${lat};${lon}/?token=${process.env.AQICN_TOKEN}`;
+        // Prioritize administrative/city center types over specific landmarks (like stations)
+        const priorityTypes = ["administrative", "city", "town", "village", "suburb"];
+        
+        // Filter for any of the priority types first
+        const matches = nomData.filter(item => priorityTypes.includes(item.type));
+        
+        // Select the one with the highest prominence among the prioritized types, 
+        // OR fallback to the first result if no priority types found.
+        let bestMatch = matches.length > 0 ? matches[0] : nomData[0];
+
+        targetLat = parseFloat(bestMatch.lat);
+        targetLon = parseFloat(bestMatch.lon);
+        url = `https://api.waqi.info/feed/geo:${targetLat};${targetLon}/?token=${process.env.AQICN_TOKEN}`;
       } else {
         url = `https://api.waqi.info/feed/${encodeURIComponent(city)}/?token=${process.env.AQICN_TOKEN}`;
       }
@@ -58,8 +68,8 @@ async function getAQI(city, uid) {
 
   return {
     aqi: data.data.aqi,
-    lat: data.data.city.geo[0],
-    lon: data.data.city.geo[1]
+    lat: targetLat !== null ? targetLat : data.data.city.geo[0],
+    lon: targetLon !== null ? targetLon : data.data.city.geo[1]
   };
 }
 
@@ -109,10 +119,6 @@ Do not add extra text.
 module.exports = async (req, res) => {
   const originalCity = req.query.city;
   let city = originalCity?.toLowerCase();
-
-  if (city && cityFallbackMap[city]) {
-    city = cityFallbackMap[city];
-  }
 
   if (!city) {
     return res.status(400).json({ error: "City required" });
