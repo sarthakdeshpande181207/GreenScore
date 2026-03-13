@@ -754,7 +754,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
 
         const customIcon = L.divIcon({
           html: `<div style="width:36px;height:36px;background:${accent};border:3px solid rgba(255,255,255,0.9);border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 4px 15px rgba(0,0,0,0.5);"></div>`,
-          className: "", iconSize: [36, 36], iconAnchor: [18, 36], popupAnchor: [0, -38],
+          className: "", iconSize: [36, 36], iconAnchor: [18, 44], popupAnchor: [0, -38],
         });
 
         L.marker([lat, lon], { icon: customIcon }).addTo(greenScoreMap)
