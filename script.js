@@ -695,6 +695,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
             <span class="map-aqi-badge" style="background:${accent}22;border-color:${accent};color:${accent};">AQI ${escapeHTML(aqi)}</span>
           </div>
           <div id="map"></div>
+          <p style="text-align:center; font-size:0.75rem; margin-top:10px; opacity:0.6; font-family:Poppins,sans-serif;">Note: Map shows the location of the nearest monitoring station.</p>
         </div>
 
         <div class="chart-block">
@@ -750,7 +751,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
         );
         const hybridLayer = L.layerGroup([satelliteBase, satelliteLabels]);
 
-        greenScoreMap = L.map("map", { center: [lat, lon], zoom: 12, layers: [hybridLayer], zoomControl: true });
+        greenScoreMap = L.map("map", { center: [lat, lon], zoom: 14, layers: [hybridLayer], zoomControl: true });
 
         L.control.layers({
           "<span class='layer-btn layer-satellite'>🛰️ Satellite</span>": hybridLayer,
