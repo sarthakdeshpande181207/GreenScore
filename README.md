@@ -8,10 +8,10 @@ GreenScore is a premium, full-stack web app designed to track **real-time Air Qu
 
 ## 🚀 Key Features
 
-### 1. Accurate City Mapping
-*   **Precise Pinning:** Automatically centers the map on the geographical heart of the city you search, ensuring you fly directly to the right location every time.
-*   **Station Mapping:** If a specific city doesn't have its own monitoring station, the app intelligently identifies the **nearest physical station** and shows its exact location on the map.
-*   **Global Search:** Type any city worldwide and the map intelligently resolves the location to drop a marker at the city center.
+### 1. Air Quality Station Mapping
+*   **Station-Based Pinning:** The map pin is accurately placed at the exact coordinates of the air quality monitoring station reporting the data, providing a true reflection of where the readings originate.
+*   **Adaptive Display:** If a specific city doesn't have its own monitoring station, the app intelligently identifies the **nearest physical station** and maps its exact location.
+*   **Global Search:** Type any city worldwide and the map will instantly fly to the relevant local monitoring station.
 
 ### 2. AI Health Insights
 *   **Google Gemini 2.5 Integration:** Provides 3 custom health advisories based on the specific air quality of the searched city.
