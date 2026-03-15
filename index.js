@@ -14,6 +14,7 @@ app.use(express.static(__dirname));
 // Use the Vercel handler for the API route
 app.get("/api/aqi", apiHandler);
 app.get("/api/search", require("./api/search"));
+app.get("/api/history", require("./api/history"));
 
 function startServer(port, attemptedFallback = false) {
   const server = app.listen(port, () => {

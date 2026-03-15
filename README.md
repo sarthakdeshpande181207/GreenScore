@@ -1,73 +1,52 @@
-# 🌱 GreenScore – AI-Powered Global Air Quality Platform
+# 🌱 GreenScore – Premium AI-Powered Global Air Quality Platform
 
-**🔗 [Live Demo](https://green-score-hazel.vercel.app/)**
+**🔗 [Experience the Live Demo](https://green-score-hazel.vercel.app/)**
 
-GreenScore is a premium, full-stack web app designed to track **real-time Air Quality (AQI)** across the globe. It combines satellite data with **Google Gemini AI** to provide personalized health actions in a stunning modern interface.
-
----
-
-## 🚀 Key Features
-
-### 1. Air Quality Station Mapping
-*   **Station-Based Pinning:** The map pin is accurately placed at the exact coordinates of the air quality monitoring station reporting the data, providing a true reflection of where the readings originate.
-*   **Adaptive Display:** If a specific city doesn't have its own monitoring station, the app intelligently identifies the **nearest physical station** and maps its exact location.
-*   **Global Search:** Type any city worldwide and the map will instantly fly to the relevant local monitoring station.
-
-### 2. AI Health Insights
-*   **Google Gemini 2.5 Integration:** Provides 3 custom health advisories based on the specific air quality of the searched city.
-*   **Dynamic Logic:** Health suggestions update instantly based on changing pollution levels.
-
-### 3. Interactive Data Dashboard
-*   **AQI Trends:** Toggle between **Area** and **Bar** charts to see the air quality history over the last 15 days.
-*   **GreenScore Meter:** A visual SVG dial that turns complex AQI data into a clear 0-100 score.
-*   **Satellite & Street Views:** Switch map layers to see high-resolution satellite imagery or standard street maps.
-
-### 4. Smart Security & Speed
-*   **XSS Protection:** All search results and data are sanitized to keep the site secure.
-*   **Rate Limiting:** Prevents API abuse to ensure the service stays fast for everyone.
-*   **Autocomplete Search:** Fast, debounced search box that helps you find cities as you type.
+GreenScore is a high-end, full-stack ecosystem designed to transform the way we interact with environmental data. By combining **Google Gemini 2.5 AI** with global satellite networks, GreenScore delivers personalized health intelligence wrapped in a stunning, **modern Glassmorphic interface**.
 
 ---
 
-## 🛠️ Tech Stack
+## ✨ Primary Premium Highlights
 
-*   **Intelligence:** Google Gemini AI API
-*   **Data Source:** World Air Quality Index (AQICN)
-*   **Mapping:** OpenStreetMap & Esri Satellite Layers
-*   **Frontend:** HTML, CSS (Glassmorphism), JavaScript (Chart.js, Leaflet.js)
-*   **Backend:** Node.js (Express)
+### 1. 🧙‍♂️ Gemini AI Health Architecture
+*   **Proactive Health Hub**: Integrated with **Google Gemini 2.5**, the platform doesn't just show numbers; it interprets them. It generates 3 hyper-personalized health actions for every city on Earth.
+*   **Contextual Intelligence**: Actions change dynamically based on specific pollutant concentrations (IAQI), ensuring users get targeted local advice.
 
----
+### 2. 🔐 High-End "Passwordless" Security
+*   **Premium Auth Flow**: Fully integrated with **Firebase Authentication**, featuring a "Passwordless" recovery strategy that prioritizes one-tap Google Login for a friction-free experience.
+*   **Smart Security Barriers**: Built-in 1-account-per-email enforcement, XSS protection, and real-time input validation with high-end "Shake" animations for invalid entries.
+*   **Branded Google Sign-In**: A custom-configured Google Auth window ensures a consistent, professional brand experience from the first click.
 
-## 🚀 Setup & Installation
+### 3. 🎨 State-of-the-Art Glassmorphic UI
+*   **Hyper-Modern Design**: A premium aesthetic utilizing radial gradients, backdrop blurs (Glassmorphism), and a refined dark mode palette that feels alive.
+*   **Interactive Data Storytelling**:
+    *   **GreenScore Meter**: A visual 0-100 SVG dial that translates complex data into instant understanding.
+    *   **Dynamic Analytics**: Toggle between **Area** and **Bar** charts to visualize 15-day AQI trends with interactive canvas tooltips.
+    *   **Micro-Animations**: Experience smooth page transitions, hover glow effects, and a branded **User Profile Pill** in the navbar.
 
-1.  **Clone the Repository:**
-    ```bash
-    git clone https://github.com/sarthakdeshpande181207/GreenScore.git
-    ```
-2.  **Install Dependencies:**
-    ```bash
-    npm install
-    ```
-3.  **Environment Variables:** Create a `.env` file:
-    ```env
-    AQICN_TOKEN=your_token_here
-    GEMINI_API_KEY=your_key_here
-    PORT=3000
-    ```
-4.  **Launch:**
-    ```bash
-    npm start
-    ```
+### 4. 🛰️ Global Map Precision
+*   **Station-Level Pinning**: Accuracy is everything. The map pins precise coordinates of monitoring stations, with intelligent fallback to city centers when required.
+*   **Satellite Layering**: Seamlessly switch between global satellite imagery and standard street views via a custom Leaflet integration.
 
 ---
 
-## 👥 Meet the Team: Tech Strikers
-*Developed for TechSprint AI Hack'25 (GDG PCE)*
+## 🛠️ Performance Tech Stack
 
-*   **Prasad Kokare** (Lead)
-*   **Sarthak Deshpande**
-*   **Bhavesh Kumawat**
-*   **Prajwal Mote**
+*   **Intelligence Layer:** Google Gemini AI API
+*   **Environmental Engine:** World Air Quality Index (AQICN) Global Network
+*   **Mapping Core:** Leaflet.js with Esri Satellite Integration
+*   **Frontend Mastery:** Vanilla ES6+ JavaScript, CSS3 Glassmorphism, Chart.js
+*   **Reliable Backend:** Node.js (Express) with Vercel Edge Functions
 
+---
 
+## 👥 The Tech Strikers Team
+*Crafted with precision for TechSprint AI Hack'25 (GDG PCE)*
+
+*   **Prasad Kokare** (Lead Engineer)
+*   **Sarthak Deshpande** (AI & Data Architect)
+*   **Bhavesh Kumawat** (UI/UX & Frontend Specialist)
+*   **Prajwal Mote** (Backend & Security)
+
+---
+*GreenScore — Empowering the world to breathe smarter.*

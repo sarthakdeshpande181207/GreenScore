@@ -25,6 +25,13 @@ function hideLoader() {
 //  HISTORY  (localStorage, per city)
 // ═══════════════════════════════════════
 
+function getLocalDateStr(d = new Date()) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
 function getHistoryKey(city) {
   return `greenscore_history_${city.toLowerCase().trim()}`;
 }
@@ -37,7 +44,7 @@ function loadHistory(city) {
 }
 
 function saveHistory(city, score) {
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getLocalDateStr(new Date());
   let history = loadHistory(city);
   const idx = history.findIndex(e => e.date === today);
   if (idx >= 0) { history[idx].score = score; }
@@ -48,18 +55,17 @@ function saveHistory(city, score) {
   return history;
 }
 
-function buildChartData(city, currentScore) {
-  let history = loadHistory(city);
+function buildChartData(history, currentScore) {
   // Back-fill with estimated data if fewer than 15 real days
   if (history.length < 15) {
     const needDays = 15 - history.length;
-    const oldest = history.length > 0 ? new Date(history[0].date) : new Date();
+    const oldest = history.length > 0 ? new Date(history[0].date + "T00:00:00") : new Date();
     const mock = [];
     let prev = history.length > 0 ? history[0].score : currentScore;
     for (let i = needDays; i >= 1; i--) {
       const d = new Date(oldest);
       d.setDate(oldest.getDate() - i);
-      const date = d.toISOString().slice(0, 10);
+      const date = getLocalDateStr(d);
       const delta = (Math.random() - 0.5) * 16;
       const score = Math.round(Math.max(0, Math.min(100, prev + delta)));
       mock.push({ date, score, isEstimate: true });
@@ -89,6 +95,39 @@ function scoreColor(s) {
   return { color: "#9b59b6", label: "Severe" };
 }
 
+// ═══════════════════════════════════════
+//  FIREBASE AUTH INTEGRATION
+// ═══════════════════════════════════════
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import firebaseConfig from "./firebase-config.js";
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+const userControls = document.getElementById("userControls");
+const userNameDisplay = document.getElementById("userNameDisplay");
+const logoutBtn = document.getElementById("logoutBtn");
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    userControls.style.display = "flex";
+    userNameDisplay.textContent = user.displayName || user.email.split("@")[0];
+  } else {
+    // Redirect if session lost
+    window.location.href = "auth.html";
+  }
+});
+
+logoutBtn.addEventListener("click", async () => {
+    try {
+        await signOut(auth);
+        window.location.href = "auth.html";
+    } catch (error) {
+        console.error("Logout failed:", error);
+    }
+});
+
 function shortDate(isoDate) {
   const d = new Date(isoDate + "T00:00:00");
   return d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
@@ -102,7 +141,7 @@ function buildDisplayData(cityHistory, days) {
   for (let i = days - 1; i >= 0; i--) {
     const d = new Date(now);
     d.setDate(d.getDate() - i);
-    const key = d.toISOString().slice(0, 10);
+    const key = getLocalDateStr(d);
     const entry = map[key];
     result.push({
       date: shortDate(key),
@@ -163,12 +202,11 @@ function drawChart(canvasId, displayData, chartType) {
   ctx.setLineDash([]);
 
   if (chartType === "area") {
-    // Build connected segments skipping nulls
+    // Build connected segments spanning nulls
     const segments = [];
     let seg = [];
     displayData.forEach((d, i) => {
       if (d.score !== null) seg.push(i);
-      else { if (seg.length) segments.push(seg); seg = []; }
     });
     if (seg.length) segments.push(seg);
 
@@ -596,9 +634,34 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
 
     document.documentElement.style.setProperty("--accent", accent);
 
-    // Save & build chart data
-    saveHistory(city, greenScore);
-    const chartData = buildChartData(city, greenScore);
+    // Fetch global history
+    let globalHistory = [];
+    try {
+      const histRes = await fetch(`/api/history?city=${encodeURIComponent(city)}`);
+      if (histRes.ok) globalHistory = await histRes.json();
+    } catch (e) {
+      console.warn("Global history fetch failed", e);
+    }
+
+    // Ensure today's score is immediately present in case backend didn't save yet
+    const today = getLocalDateStr(new Date());
+    const gIdx = globalHistory.findIndex(e => e.date === today);
+    if (gIdx >= 0) {
+      globalHistory[gIdx].score = greenScore;
+      globalHistory[gIdx].isEstimate = false;
+    } else {
+      globalHistory.push({ date: today, score: greenScore, isEstimate: false });
+    }
+    globalHistory.sort((a,b) => a.date.localeCompare(b.date));
+
+    // Build chart data using global history (and fallback local if global is empty)
+    saveHistory(city, greenScore); // still keep a local backup just in case
+    if (globalHistory.length <= 1) {
+      const db = loadHistory(city);
+      if (db.length > 1) globalHistory = db;
+    }
+    
+    const chartData = buildChartData(globalHistory, greenScore);
 
     function animateScore(target) {
       const el = document.getElementById("animatedScore");
@@ -727,7 +790,7 @@ document.getElementById("checkBtn").addEventListener("click", async () => {
           <div class="chart-legend">
             <span class="legend-item"><span class="legend-dot" id="legendDotReal"></span>Real</span>
             <span class="legend-item"><span class="legend-dot" id="legendDotEst" style="opacity:0.4"></span>Estimated</span>
-            <span class="chart-source">source: aqicn · local cache</span>
+            <span class="chart-source">source: aqicn · global network</span>
           </div>
         </div>
       </div>

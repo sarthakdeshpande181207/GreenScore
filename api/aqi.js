@@ -1,4 +1,83 @@
 const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
+const { kv } = require("@vercel/kv");
+
+const HISTORY_FILE = path.join(__dirname, "..", "globalHistory.json");
+
+function getLocalDateStr(d = new Date()) {
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+async function saveGlobalHistory(city, aqi) {
+  if (aqi == null) return;
+  
+  let greenScore = aqi <= 500 ? 100 - (aqi / 5) : 0;
+  greenScore = Math.max(0, Math.min(100, Math.round(greenScore)));
+
+  const safeCity = city.toLowerCase().trim();
+  const today = getLocalDateStr();
+  let history = [];
+
+  // --- 1. Cloud Storage Path (Vercel KV) ---
+  if (process.env.KV_URL) {
+    try {
+      // Get current cloud history
+      history = (await kv.get(`history:${safeCity}`)) || [];
+      
+      const idx = history.findIndex(e => e.date === today);
+      if (idx >= 0) {
+        history[idx].score = greenScore;
+        history[idx].isEstimate = false;
+      } else {
+        history.push({ date: today, score: greenScore, isEstimate: false });
+      }
+
+      history.sort((a,b) => a.date.localeCompare(b.date));
+      if (history.length > 15) history = history.slice(-15);
+
+      // Save back to cloud
+      await kv.set(`history:${safeCity}`, history);
+      return; // Exit if cloud save succeeded
+    } catch (err) {
+      console.error("Vercel KV save failed, falling back to local:", err);
+    }
+  }
+
+  // --- 2. Local Fallback (JSON File) ---
+  let data = {};
+  try {
+    if (fs.existsSync(HISTORY_FILE)) {
+      data = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf-8"));
+    }
+  } catch (err) {
+    console.error("Failed to read history file:", err);
+  }
+
+  history = data[safeCity] || [];
+  const idx = history.findIndex(e => e.date === today);
+  if (idx >= 0) {
+    history[idx].score = greenScore;
+    history[idx].isEstimate = false;
+  } else {
+    history.push({ date: today, score: greenScore, isEstimate: false });
+  }
+
+  history.sort((a, b) => a.date.localeCompare(b.date));
+  if (history.length > 15) history = history.slice(-15);
+
+  data[safeCity] = history;
+
+  try {
+    fs.writeFileSync(HISTORY_FILE, JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.error("Failed to save history file:", err);
+  }
+}
+
 
 /* =========================
    GET AQI FROM AQICN
@@ -152,6 +231,9 @@ module.exports = async (req, res) => {
     const searchCity = req.query.search_city || city;
     const { aqi, lat, lon } = await getAQI(searchCity, uid);
     const actions = await getGeminiActions(city, aqi);
+
+    // Save the global data point for today
+    await saveGlobalHistory(city, aqi);
 
     res.status(200).json({
       city,

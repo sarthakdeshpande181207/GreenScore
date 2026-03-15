@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreenScore - Join the Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent: #2ecc71;
+            --bg: #0b1020;
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text: #e5e7eb;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background:
+                radial-gradient(circle at top left, #1b2a4e, #0b1020 40%),
+                radial-gradient(circle at bottom right, #0f3d2e, #050814 45%);
+            background-blend-mode: screen;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        /* Animated Background Gradients */
+        .bg-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.15) 0%, rgba(46, 204, 113, 0) 70%);
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: -1;
+            animation: drift 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes drift {
+            from { transform: translate(-20%, -20%); }
+            to { transform: translate(20%, 20%); }
+        }
+
+        .auth-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .logo img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            /* Premium trick to blend white background images into dark themes */
+            mix-blend-mode: multiply;
+            filter: contrast(1.1) brightness(1.1);
+        }
+
+        .logo-icon-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.4);
+            border: 2px solid var(--accent);
+            overflow: hidden;
+        }
+
+        .logo span {
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff 30%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            opacity: 0.8;
+            margin-left: 4px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: white;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(46, 204, 113, 0.05);
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.1);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            color: #050814;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 10px;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.3);
+            filter: brightness(1.1);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            opacity: 0.3;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: white;
+        }
+
+        .divider span {
+            margin: 0 15px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 16px;
+            background: white;
+            border: none;
+            border-radius: 14px;
+            color: #050814;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
+            margin-top: 10px;
+        }
+
+        .google-btn:hover {
+            background: #f8f9fa;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.15);
+        }
+
+        .google-btn img {
+            width: 22px;
+            height: 22px;
+        }
+
+        .recovery-hint {
+            display: block;
+            text-align: center;
+            font-size: 0.8rem;
+            margin-top: 15px;
+            color: var(--text);
+            opacity: 0.6;
+            cursor: default;
+        }
+
+        .recovery-hint strong {
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .recovery-hint strong:hover {
+            text-decoration: underline;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 38px;
+            cursor: pointer;
+            opacity: 0.5;
+            user-select: none;
+        }
+
+        .toggle-password:hover {
+            opacity: 1;
+        }
+
+        .toggle-btn {
+            margin-top: 24px;
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .toggle-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .toggle-link:hover {
+            text-decoration: underline;
+        }
+
+        .error-msg, .success-msg {
+            display: none;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+            text-align: left;
+            animation: alertSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(10px);
+            border: 1px solid transparent;
+        }
+
+        @keyframes alertSlide {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .error-msg {
+            background: rgba(231, 76, 60, 0.12);
+            border-color: rgba(231, 76, 60, 0.25);
+            color: #ff7675;
+        }
+
+        .success-msg {
+            background: rgba(46, 204, 113, 0.12);
+            border-color: rgba(46, 204, 113, 0.25);
+            color: #2ecc71;
+        }
+
+        .forgot-link {
+            display: block;
+            text-align: right;
+            font-size: 0.75rem;
+            margin-top: -12px;
+            margin-bottom: 20px;
+            color: var(--text);
+            opacity: 0.5;
+            text-decoration: none;
+        }
+
+        .forgot-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+
+        #loadingOverlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(5, 8, 20, 0.8);
+            border-radius: 24px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .spinner {
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            display: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            color: var(--text);
+            z-index: 30;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px 12px;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .back-btn:hover {
+            opacity: 1;
+            transform: translateX(-4px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .validation-hint {
+            font-size: 0.75rem;
+            margin-top: 6px;
+            margin-left: 4px;
+            display: none;
+            color: #ff7675;
+            animation: fadeIn 0.3s ease;
+            font-weight: 500;
+        }
+
+        /* Shake Animation for Invalid Fields */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .shake {
+            animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+            border-color: rgba(231, 76, 60, 0.5) !important;
+            box-shadow: 0 0 15px rgba(231, 76, 60, 0.2) !important;
+            background: rgba(231, 76, 60, 0.05) !important;
+        }
+
+        .strength-meter {
+            height: 4px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+            display: none;
+        }
+
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: all 0.4s ease;
+        }
+
+        .strength-label {
+            font-size: 0.7rem;
+            margin-top: 4px;
+            text-align: right;
+            display: none;
+            opacity: 0.8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-glow"></div>
+    
+    <div class="auth-container">
+        <div id="loadingOverlay">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="backToLogin" class="back-btn">← Back to Login</div>
+
+        <div class="logo">
+            <div class="logo-icon-wrap">
+                <img src="logo.jpeg" alt="GreenScore Logo" />
+            </div>
+            <span>GreenScore</span>
+        </div>
+        <p class="subtitle" id="authSubtitle">Log in to view air quality data</p>
+
+        <div id="errorBox" class="error-msg"></div>
+        <div id="successBox" class="success-msg"></div>
+
+        <form id="authForm" novalidate>
+            <div class="form-group" id="nameFieldContainer" style="display: none;">
+                <label>Full Name</label>
+                <input type="text" id="nameInput" placeholder="John Doe">
+            </div>
+            
+            <div class="form-group">
+                <label>Email Address</label>
+                <input type="email" id="emailInput" placeholder="name@example.com" required>
+                <div id="emailHint" class="validation-hint">Please enter a valid email address (e.g., name@gmail.com)</div>
+            </div>
+
+            <div class="form-group" style="position: relative;">
+                <label>Password</label>
+                <input type="password" id="passwordInput" placeholder="••••••••" required>
+                <span class="toggle-password" id="togglePass">👁️</span>
+                <div id="strengthMeter" class="strength-meter">
+                    <div id="strengthBar" class="strength-bar"></div>
+                </div>
+                <div id="strengthLabel" class="strength-label">Strength: Weak</div>
+            </div>
+
+            <div class="form-group" id="confirmPasswordFieldContainer" style="display: none; position: relative;">
+                <label>Confirm Password</label>
+                <input type="password" id="confirmPasswordInput" placeholder="••••••••">
+                <span class="toggle-password" id="toggleConfirmPass">👁️</span>
+                <div id="matchHint" class="validation-hint">Passwords do not match</div>
+            </div>
+
+            <button type="submit" class="auth-btn" id="submitBtn">Log In</button>
+            <p class="recovery-hint" id="recoveryHint">Forgot password? <strong>Use Google Login</strong> for instant access.</p>
+        </form>
+
+        <div class="divider" id="googleDivider">
+            <span>OR SIGN IN WITH PASSWORD</span>
+        </div>
+
+        <button class="google-btn" id="googleLoginBtn">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
+            Continue with Google
+        </button>
+
+        <div class="toggle-btn">
+            <span id="toggleText">New to GreenScore?</span>
+            <span class="toggle-link" id="toggleLink" style="font-weight: 600; color: var(--accent);">Create an account</span>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { 
+            getAuth, 
+            signInWithEmailAndPassword, 
+            createUserWithEmailAndPassword, 
+            updateProfile, 
+            onAuthStateChanged,
+            GoogleAuthProvider,
+            signInWithPopup,
+            sendPasswordResetEmail
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import firebaseConfig from "./firebase-config.js";
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+
+        const form = document.getElementById('authForm');
+        const nameField = document.getElementById('nameFieldContainer');
+        const confirmField = document.getElementById('confirmPasswordFieldContainer');
+        const toggleLink = document.getElementById('toggleLink');
+        const submitBtn = document.getElementById('submitBtn');
+        const subtitle = document.getElementById('authSubtitle');
+        const errorBox = document.getElementById('errorBox');
+        const successBox = document.getElementById('successBox');
+        const loader = document.getElementById('loadingOverlay');
+        const googleBtn = document.getElementById('googleLoginBtn');
+        const togglePass = document.getElementById('togglePass');
+        const toggleConfirmPass = document.getElementById('toggleConfirmPass');
+        const emailHint = document.getElementById('emailHint');
+        const strengthMeter = document.getElementById('strengthMeter');
+        const strengthBar = document.getElementById('strengthBar');
+        const strengthLabel = document.getElementById('strengthLabel');
+        const matchHint = document.getElementById('matchHint');
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const nameInput = document.getElementById('nameInput');
+        const confirmPasswordInput = document.getElementById('confirmPasswordInput');
+        const inputs = form.querySelectorAll('input');
+
+        let isLogin = true;
+
+        // Password visibility toggles
+        togglePass.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePass.textContent = type === 'password' ? '👁️' : '🔒';
+        });
+
+        toggleConfirmPass.addEventListener('click', () => {
+            const type = confirmPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordInput.setAttribute('type', type);
+            toggleConfirmPass.textContent = type === 'password' ? '👁️' : '🔒';
+        });
+
+        // Real-time Validation Logic
+        emailInput.addEventListener('input', () => {
+            const email = emailInput.value;
+            if (email.length > 0 && !email.includes('@')) {
+                emailHint.style.display = 'block';
+                emailHint.textContent = 'Missing "@" in email address.';
+            } else if (email.length > 0 && !/^\S+@\S+\.\S+$/.test(email)) {
+                emailHint.style.display = 'block';
+                emailHint.textContent = 'Enter a valid email (e.g., name@gmail.com)';
+            } else {
+                emailHint.style.display = 'none';
+            }
+        });
+
+        function updateStrength(password) {
+            if (isLogin) {
+                strengthMeter.style.display = 'none';
+                strengthLabel.style.display = 'none';
+                return;
+            }
+            
+            if (password.length === 0) {
+                strengthMeter.style.display = 'none';
+                strengthLabel.style.display = 'none';
+                return;
+            }
+
+            strengthMeter.style.display = 'block';
+            strengthLabel.style.display = 'block';
+
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.length >= 10) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+
+            let color = '#ff7675'; // Weak
+            let label = 'Weak';
+            let width = '20%';
+
+            if (strength >= 3) {
+                color = '#f1c40f'; // Medium
+                label = 'Medium Strength';
+                width = '60%';
+            }
+            if (strength >= 5) {
+                color = '#2ecc71'; // Strong
+                label = 'Strong Password';
+                width = '100%';
+            }
+
+            strengthBar.style.width = width;
+            strengthBar.style.backgroundColor = color;
+            strengthLabel.textContent = `Strength: ${label}`;
+            strengthLabel.style.color = color;
+        }
+
+        passwordInput.addEventListener('input', () => {
+            updateStrength(passwordInput.value);
+            checkMatch();
+        });
+
+        function checkMatch() {
+            if (isLogin || confirmPasswordInput.value.length === 0) {
+                matchHint.style.display = 'none';
+                return;
+            }
+            if (passwordInput.value !== confirmPasswordInput.value) {
+                matchHint.style.display = 'block';
+            } else {
+                matchHint.style.display = 'none';
+            }
+        }
+
+        confirmPasswordInput.addEventListener('input', checkMatch);
+
+        // Clear shake on input
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                input.classList.remove('shake');
+            });
+        });
+
+        const backToLogin = document.getElementById('backToLogin');
+
+        function toggleAuthMode() {
+            isLogin = !isLogin;
+            nameField.style.display = isLogin ? 'none' : 'block';
+            nameInput.required = !isLogin;
+            confirmField.style.display = isLogin ? 'none' : 'block';
+            confirmPasswordInput.required = !isLogin;
+            backToLogin.style.display = isLogin ? 'none' : 'block';
+            document.getElementById('recoveryHint').style.display = isLogin ? 'block' : 'none';
+            
+            // Hide validation elements on toggle
+            emailHint.style.display = 'none';
+            strengthMeter.style.display = 'none';
+            strengthLabel.style.display = 'none';
+            matchHint.style.display = 'none';
+            
+            submitBtn.textContent = isLogin ? 'Log In' : 'Join the Network';
+            subtitle.textContent = isLogin ? 'Log in to view air quality data' : 'Create an account to join the community';
+            document.getElementById('toggleText').textContent = isLogin ? 'New to GreenScore?' : 'Already have an account?';
+            toggleLink.textContent = isLogin ? 'Create an account' : 'Log in here';
+            errorBox.style.display = 'none';
+            successBox.style.display = 'none';
+        }
+
+        toggleLink.addEventListener('click', toggleAuthMode);
+        backToLogin.addEventListener('click', () => {
+            if (!isLogin) toggleAuthMode();
+        });
+
+        // Google Login Logic
+        const handleGoogleLogin = async () => {
+            loader.style.display = 'flex';
+            try {
+                await signInWithPopup(auth, provider);
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error(error);
+                const friendlyMsg = firebaseErrorMap[error.code] || error.message.replace('Firebase: ', '');
+                showMessage('error', friendlyMsg);
+            } finally {
+                loader.style.display = 'none';
+            }
+        };
+
+        googleBtn.addEventListener('click', handleGoogleLogin);
+        document.getElementById('recoveryHint').querySelector('strong').addEventListener('click', handleGoogleLogin);
+
+        const firebaseErrorMap = {
+            'auth/user-not-found': 'We couldn\'t find an account with that email.',
+            'auth/wrong-password': 'The password you entered is incorrect.',
+            'auth/invalid-email': 'Please enter a valid email address.',
+            'auth/email-already-in-use': 'This email is already registered to another account.',
+            'auth/weak-password': 'Password should be at least 6 characters.',
+            'auth/network-request-failed': 'Connection failed. Please check your internet.',
+            'auth/too-many-requests': 'Account temporarily locked due to many failed attempts. Try later.',
+            'auth/popup-closed-by-user': 'Google sign-in was cancelled.',
+            'auth/operation-not-allowed': 'This sign-in method is not enabled in Firebase Console.',
+        };
+
+        function showMessage(type, text) {
+            const box = type === 'error' ? errorBox : successBox;
+            const other = type === 'error' ? successBox : errorBox;
+            
+            other.style.display = 'none';
+            box.textContent = text;
+            box.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => { box.style.display = 'none'; }, 5000);
+            }
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            // Clear previous states
+            inputs.forEach(i => i.classList.remove('shake'));
+
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const name = nameInput.value;
+
+            // Custom "Required" Validation with Shake
+            let hasError = false;
+            if (!email) { emailInput.classList.add('shake'); hasError = true; }
+            if (!password) { passwordInput.classList.add('shake'); hasError = true; }
+            if (!isLogin && !name) { nameInput.classList.add('shake'); hasError = true; }
+            if (!isLogin && !confirmPassword) { confirmPasswordInput.classList.add('shake'); hasError = true; }
+
+            if (hasError) {
+                showMessage('error', "Please fill in all fields.");
+                return;
+            }
+
+            if (!isLogin && password !== confirmPassword) {
+                confirmPasswordInput.classList.add('shake');
+                showMessage('error', "Passwords do not match.");
+                return;
+            }
+
+            errorBox.style.display = 'none';
+            loader.style.display = 'flex';
+
+            try {
+                if (isLogin) {
+                    await signInWithEmailAndPassword(auth, email, password);
+                } else {
+                    const result = await createUserWithEmailAndPassword(auth, email, password);
+                    await updateProfile(result.user, { displayName: name });
+                }
+                window.location.href = 'index.html';
+            } catch (error) {
+                console.error(error.code, error.message);
+                const friendlyMsg = firebaseErrorMap[error.code] || error.message.replace('Firebase: ', '');
+                showMessage('error', friendlyMsg);
+            } finally {
+                loader.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

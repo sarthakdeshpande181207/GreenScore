@@ -14,6 +14,26 @@
     crossorigin=""
   />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body { opacity: 0; transition: opacity 0.5s ease; }
+    body.auth-ready { opacity: 1; }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import firebaseConfig from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "auth.html";
+      } else {
+        document.body.classList.add('auth-ready');
+      }
+    });
+  </script>
 </head>
 <body>
 
@@ -22,6 +42,12 @@
     <div class="logo">
       <img src="logo.jpeg" alt="GreenScore Logo" />
       <span>GreenScore</span>
+    </div>
+    <div class="user-controls" id="userControls" style="display: none;">
+      <div class="user-profile">
+        <span id="userNameDisplay">...</span>
+      </div>
+      <button class="logout-btn" id="logoutBtn">Sign Out</button>
     </div>
   </nav>
 
@@ -100,6 +126,6 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""
   ></script>
-  <script src="script.js?v=1.1"></script>
+  <script type="module" src="script.js?v=1.1"></script>
 </body>
 </html>
