@@ -1,32 +1,31 @@
-# 🌱 GreenScore – Premium AI-Powered Global Air Quality Platform
+# 🌱 GreenScore – AI-Powered Air Quality to Health Intelligence
 
 **🔗 [Experience the Live Demo](https://green-score-hazel.vercel.app/)**
 
-GreenScore is a high-end, full-stack ecosystem designed to transform the way we interact with environmental data. By combining **Google Gemini 2.5 AI** with global satellite networks, GreenScore delivers personalized health intelligence wrapped in a stunning, **modern Glassmorphic interface**.
+GreenScore is a full-stack platform that transforms complex environmental data into a user-friendly **GreenScore (0–100)**. By converting the standard Air Quality Index (AQI) using our custom formula, we empower users to understand their environment at a glance.
+
+### 🎯 The Core Mission: AQI → GreenScore
+Standard AQI numbers can be confusing. GreenScore simplifies this by calculating a normalized score:
+**`GreenScore = 100 - (AQI / 5)`**
+*   **High Score (90-100):** Clean air, perfect for outdoor activities.
+*   **Low Score (<40):** Significant pollution, health precautions required.
 
 ---
 
-## ✨ Primary Premium Highlights
+## ✨ Key Features
 
-### 1. 🧙‍♂️ Gemini AI Health Architecture
-*   **Proactive Health Hub**: Integrated with **Google Gemini 2.5**, the platform doesn't just show numbers; it interprets them. It generates 3 hyper-personalized health actions for every city on Earth.
-*   **Contextual Intelligence**: Actions change dynamically based on specific pollutant concentrations (IAQI), ensuring users get targeted local advice.
+### 1. 🧙‍♂️ Gemini AI Health Actions
+*   **Personalized Intelligence**: Integrated with **Google Gemini 2.5**, the platform generates 3 hyper-personalized health actions for every city based on real-time data.
+*   **Smart Fallback**: Even when local sensors are offline, AI provides estimated health guidelines to ensure safety.
 
-### 2. 🔐 High-End "Passwordless" Security
-*   **Premium Auth Flow**: Fully integrated with **Firebase Authentication**, featuring a "Passwordless" recovery strategy that prioritizes one-tap Google Login for a friction-free experience.
-*   **Smart Security Barriers**: Built-in 1-account-per-email enforcement, XSS protection, and real-time input validation with high-end "Shake" animations for invalid entries.
-*   **Branded Google Sign-In**: A custom-configured Google Auth window ensures a consistent, professional brand experience from the first click.
+### 2. 🎨 Glassmorphic Data Dashboard
+*   **GreenScore Meter**: A visual 0-100 dial that provides instant environmental awareness.
+*   **15-Day Trends**: Interactive charts (Area & Bar) to visualize historical GreenScore patterns.
+*   **Modern Aesthetic**: A premium interface featuring backdrop blurs and a refined dark mode palette.
 
-### 3. 🎨 State-of-the-Art Glassmorphic UI
-*   **Hyper-Modern Design**: A premium aesthetic utilizing radial gradients, backdrop blurs (Glassmorphism), and a refined dark mode palette that feels alive.
-*   **Interactive Data Storytelling**:
-    *   **GreenScore Meter**: A visual 0-100 SVG dial that translates complex data into instant understanding.
-    *   **Dynamic Analytics**: Toggle between **Area** and **Bar** charts to visualize 15-day AQI trends with interactive canvas tooltips.
-    *   **Micro-Animations**: Experience smooth page transitions, hover glow effects, and a branded **User Profile Pill** in the navbar.
-
-### 4. 🛰️ Global Map Precision
-*   **Station-Level Pinning**: Accuracy is everything. The map pins precise coordinates of monitoring stations, with intelligent fallback to city centers when required.
-*   **Satellite Layering**: Seamlessly switch between global satellite imagery and standard street views via a custom Leaflet integration.
+### 3. 🛰️ Global Map Precision
+*   **Real-Time Pinning**: Precise coordinates of monitoring stations with intelligent fallback to city centers.
+*   **Satellite Views**: Seamlessly switch between global satellite imagery and standard maps.
 
 ---
 
@@ -41,12 +40,12 @@ GreenScore is a high-end, full-stack ecosystem designed to transform the way we 
 ---
 
 ## 👥 The Tech Strikers Team
-*Crafted with precision for TechSprint AI Hack'25 (GDG PCE)*
+*Crafted  for TechSprint AI Hack'25 (GDG PCE)*
 
-*   **Prasad Kokare** (Lead Engineer)
-*   **Sarthak Deshpande** (AI & Data Architect)
-*   **Bhavesh Kumawat** (UI/UX & Frontend Specialist)
-*   **Prajwal Mote** (Backend & Security)
+*   **Prasad Kokare** (Leader)
+*   **Sarthak Deshpande** 
+*   **Bhavesh Kumawat** 
+*   **Prajwal Mote** 
 
 ---
 *GreenScore — Empowering the world to breathe smarter.*

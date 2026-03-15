@@ -930,12 +930,90 @@ button:hover {
   color: #1e3048;
 }
 
-/* Mobile */
-@media (max-width: 700px) {
-  .features {
-    flex-direction: column;
+/* ===================== RESPONSIVE OVERHAUL 📱 ===================== */
+
+/* Tablet & Smaller Laptops */
+@media (max-width: 1024px) {
+  .home-page {
+    padding: 2rem 1.5rem;
   }
 
+  .card {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "left info"
+      "map map"
+      "chart chart";
+    padding: 1.2rem;
+  }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .user-controls {
+    width: 100%;
+    justify-content: center;
+    gap: 0.8rem;
+  }
+
+  .user-profile {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .home-page h1 {
+    font-size: 2rem;
+    line-height: 1.2;
+    text-align: center;
+    margin: 0 auto 1.5rem;
+  }
+
+  .home-page p {
+    text-align: center;
+    margin: 0 auto;
+    font-size: 0.95rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem auto 0;
+  }
+
+  input {
+    width: 100% !important;
+  }
+
+  button {
+    width: 100%;
+  }
+
+  .features {
+    margin-top: 5rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .feature {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .bg-stat {
+    display: none;
+  }
+
+  /* Result Page Scaling */
   .card {
     grid-template-columns: 1fr;
     grid-template-areas: 
@@ -943,22 +1021,69 @@ button:hover {
       "info"
       "map"
       "chart";
+    gap: 1rem;
+    padding: 1rem;
   }
 
-  .map,
-  .info-block,
-  .chart-block {
-    width: 100%;
+  .meter {
+    width: 160px;
+    height: 160px;
+    margin: 1rem auto;
+  }
+
+  .meter svg {
+    width: 160px;
+    height: 160px;
+  }
+
+  .meter circle {
+    cx: 80;
+    cy: 80;
+    r: 70;
+  }
+
+  .meter-text .score {
+    font-size: 2.2rem;
+  }
+
+  .meter-text .label {
+    font-size: 0.65rem;
+  }
+
+  .info-block, .map, .chart-block {
     height: auto;
+    min-height: 280px;
   }
 
-  .input-group {
-    flex-direction: column;
+  .stat-pill {
+    padding: 4px 6px;
   }
 
-  input,
-  button {
-    width: 100%;
+  .stat-value {
+    font-size: 0.9rem;
+  }
+
+  .chart-canvas-wrap {
+    height: 200px;
+  }
+}
+
+/* Very Small Devices */
+@media (max-width: 400px) {
+  .navbar .logo span {
+    display: none;
+  }
+
+  .home-page h1 {
+    font-size: 1.7rem;
+  }
+
+  .action-card {
+    padding: 0.7rem;
+  }
+
+  .action-card .icon {
+    font-size: 1.1rem;
   }
 }
 
